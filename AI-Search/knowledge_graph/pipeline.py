@@ -1,6 +1,6 @@
-from llama_index.core import SimpleDirectoryReader
-from llama_index.core import KnowledgeGraphIndex, StorageContext, Settings, load_graph_from_storage
+from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex, StorageContext, Settings, load_graph_from_storage
 from llama_index.core.graph_stores import SimpleGraphStore
+from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     # Settings
@@ -8,6 +8,8 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
     graph_context_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\graph-context-store"
 
     # Init
+    faithfulness_evaluator = FaithfulnessEvaluator(llm=Settings.llm)
+    relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
 
     # Index pipeline
     if load_from_storage:
@@ -41,13 +43,19 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         similarity_top_k=5,
     )
 
-    print("Graph 1", end='\n')
+    print("Knowledge Graph started", end='\n')
           
     for question in questions:
         response = query_engine.query(question)
-        print(question, end='\n')
-        print(response, end='\n')
-        print(end='\n')
+        print("Q : " + question, end='\n')
+        print("A : " + str(response), end='\n')
 
-    print("Graph 1 done", end='\n')
-    print("----------", end='\n')
+        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(response=response)
+        print("Evaluating Response Faithfulness : " + str(faithfulness_eval_result.passing), end='\n')
+        
+        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        print("Evaluating Response Relevancy : " + str(relevancy_eval_result), end='\n')
+        print("----------", end='\n')
+
+    print("Knowledge Graph finished", end='\n')
+    print("==========", end='\n')

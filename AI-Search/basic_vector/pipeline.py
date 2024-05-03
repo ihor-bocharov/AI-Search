@@ -1,4 +1,5 @@
-from llama_index.core import SimpleDirectoryReader, Settings, StorageContext, VectorStoreIndex, load_index_from_storage
+from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex, load_index_from_storage, Settings
+from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     # Settings
@@ -6,6 +7,8 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
     basic_context_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\basic-context-store"
 
     # Init
+    faithfulness_evaluator = FaithfulnessEvaluator(llm=Settings.llm)
+    relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
 
     # Index pipeline
     if load_from_storage:
@@ -25,13 +28,20 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
     #Query pipeline
     query_engine = index.as_query_engine()
 
-    print("Basic", end='\n')
+    print("Basic vector started", end='\n')
           
     for question in questions:
         response = query_engine.query(question)
-        print(question, end='\n')
-        print(response, end='\n')
-        print(end='\n')
+        print("Q : " + question, end='\n')
+        print("A : " + str(response), end='\n')
 
-    print("Basic done", end='\n')
-    print("----------", end='\n')
+        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(response=response)
+        print("Evaluating Response Faithfulness : " + str(faithfulness_eval_result.passing), end='\n')
+        
+        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        print("Evaluating Response Relevancy : " + str(relevancy_eval_result), end='\n')
+
+        print("----------", end='\n')
+
+    print("Basic vector finished", end='\n')
+    print("==========", end='\n')

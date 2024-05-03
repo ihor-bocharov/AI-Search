@@ -1,4 +1,5 @@
-from graph1.pipeline import run_pipeline
+from basic_vector.pipeline import run_pipeline
+
 
 def main():
     run_pipeline()
