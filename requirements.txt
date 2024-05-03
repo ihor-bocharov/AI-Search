@@ -1,9 +1,7 @@
 # Add your project dependencies here
 # pip install -r requirements.txt
 
-deeplake
 llama_index
 llama-index-llms-openai
-llama-index-graph-stores-neo4j
 textwrap3
 python-dotenv

@@ -1,41 +1,38 @@
-import os
 from llama_index.core import SimpleDirectoryReader
-from llama_index.core import KnowledgeGraphIndex, StorageContext, Settings
-from llama_index.graph_stores.neo4j import Neo4jGraphStore
-from llama_index.llms.openai import OpenAI
+from llama_index.core import KnowledgeGraphIndex, StorageContext, Settings, load_graph_from_storage
+from llama_index.core.graph_stores import SimpleGraphStore
 
-def run_pipeline(questions: list[str]):
-    #Settings
+def run_pipeline(questions: list[str], load_from_storage: bool):
+    # Settings
     data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\paul_graham_essay"
+    graph_context_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\graph-context-store"
 
-    username = "neo4j"
-    password = os.getenv("NEO4J_PASS")
-    url = "neo4j+s://824e6c44.databases.neo4j.io"
-    database = "neo4j"
+    # Init
 
-    #Init
-    graph_store = Neo4jGraphStore(
-        username=username,
-        password=password,
-        url=url,
-        database=database,
-    )
-    storage_context = StorageContext.from_defaults(graph_store=graph_store)
-    Settings.llm = OpenAI(temperature=0.2, model="gpt-3.5-turbo")
-    Settings.chunk_size = 512
+    # Index pipeline
+    if load_from_storage:
+        # rebuild storage context
+        storage_context = StorageContext.from_defaults(persist_dir=graph_context_store_path)
+        # load index
+        index = load_graph_from_storage(storage_context, root_id="vector_index")
+    else:
+        reader = SimpleDirectoryReader(input_dir=data_dir)
+        documents = reader.load_data()
 
-    #Index pipeline
-    reader = SimpleDirectoryReader(input_dir=data_dir)
-    documents = reader.load_data()
+        graph_store = SimpleGraphStore()
+        storage_context = StorageContext.from_defaults(graph_store=graph_store)
 
-    index = KnowledgeGraphIndex.from_documents(
-        documents,
-        storage_context=storage_context,
-        max_triplets_per_chunk=2,
-        include_embeddings=True,
-    )
+        index = KnowledgeGraphIndex.from_documents(
+            documents,
+            storage_context=storage_context,
+            max_triplets_per_chunk=2,
+            include_embeddings=True,
+        )
 
-    #Query pipeline
+        index.set_index_id("vector_index")
+        index.storage_context.persist(graph_context_store_path)
+
+    # Query pipeline
     query_engine = index.as_query_engine(
         llm=Settings.llm,
         include_text=True,
