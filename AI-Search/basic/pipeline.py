@@ -34,3 +34,4 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         print(end='\n')
 
     print("Basic done", end='\n')
+    print("----------", end='\n')
