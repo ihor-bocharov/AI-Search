@@ -1,6 +1,7 @@
 from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex, StorageContext, Settings, load_graph_from_storage
 from llama_index.core.graph_stores import SimpleGraphStore
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator
+from helpers.display_helper import display_node, display_evaluation_result
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     # Settings
@@ -40,22 +41,33 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         include_text=True,
         response_mode="tree_summarize",
         embedding_mode="hybrid",
-        similarity_top_k=5,
+        similarity_top_k=2,
     )
 
-    print("Knowledge Graph started", end='\n')
+    print("==================================================", end='\n')
+    print("Knowledge Graph started", end="\n\n")
           
     for question in questions:
+        print("--------------------------------------------------", end="\n\n")
+
         response = query_engine.query(question)
         print("Q : " + question, end='\n')
         print("A : " + str(response), end='\n')
 
-        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(response=response)
-        print("Evaluating Response Faithfulness : " + str(faithfulness_eval_result.passing), end='\n')
-        
-        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
-        print("Evaluating Response Relevancy : " + str(relevancy_eval_result), end='\n')
-        print("----------", end='\n')
+        print("Retrieved nodes ->", end="\n")
+        for node in response.source_nodes:
+            print()
+            display_node(node)
 
+        print()
+        print("*** Response Evaluation ***", end='\n')
+        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(response=response)
+        display_evaluation_result(faithfulness_eval_result)
+        print()
+
+        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        display_evaluation_result(relevancy_eval_result)
+
+    print()
     print("Knowledge Graph finished", end='\n')
-    print("==========", end='\n')
+    print("==================================================", end="\n\n")

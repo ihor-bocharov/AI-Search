@@ -1,7 +1,6 @@
 from llama_index.core import SimpleDirectoryReader, StorageContext, VectorStoreIndex, load_index_from_storage, Settings
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator
-from llama_index_client import EvalQuestionResult
-from llama_index.core.schema import NodeWithScore
+from helpers.display_helper import display_node, display_evaluation_result
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     # Settings
@@ -27,7 +26,7 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         index.set_index_id("vector_index")
         index.storage_context.persist(basic_context_store_path)
 
-    #Query pipeline
+    # Query pipeline
     query_engine = index.as_query_engine()
     retriever = index.as_retriever(similarity_top_k=2)
 
@@ -60,20 +59,3 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
     print("Basic vector finished", end='\n')
     print("==================================================", end="\n\n")
 
-def display_evaluation_result(result: EvalQuestionResult):
-    print("Evaluating Response Relevancy -> ", end='\n')
-    #print("Query : " + str(relevancy_eval_result.query), end='\n')
-    #print("Contexts : " + str(relevancy_eval_result.contexts), end='\n')
-    #print("Response : " + str(relevancy_eval_result.response), end='\n')
-    print("Passing : " + str(result.passing), end='\n')
-    print("Feedback : " + str(result.feedback), end='\n')
-    print("Score : " + str(result.score), end='\n')
-    print("Pairwise source : " + str(result.pairwise_source), end='\n')
-    print("Invalid result : " + str(result.invalid_result), end='\n')
-    print("Invalid reason : " + str(result.invalid_reason), end='\n')
-
-def display_node(node: NodeWithScore):
-    print("Node ID  : " + str(node.node_id ), end='\n')
-    print("Score    : " + str(node.score ), end='\n')
-    print("Text     : " + str(node.text ), end='\n')
-    #print("Metadata : " + str(node.metadata ), end='\n')
