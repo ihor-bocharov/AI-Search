@@ -14,7 +14,7 @@ from llama_index.core.node_parser import (
     SemanticSplitterNodeParser,
 )
 from llama_index.embeddings.openai import OpenAIEmbedding
-from helpers.display_helper import display_chunks
+from helpers.display_helper import display_chunks, print_log
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     # Settings
@@ -52,7 +52,7 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         nodes_base = base_splitter.get_nodes_from_documents(documents)
         index_base = VectorStoreIndex(nodes_base)
         display_chunks(nodes_base)
-        
+ 
         # Store
         index_base.set_index_id("vector_index")
         index_base.storage_context.persist(basic_context_store_path)
@@ -61,43 +61,43 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         index.storage_context.persist(semantic_context_store_path)
 
     # Query pipeline
-    print("*** Semantic Splitter ***", end='\n')
+    print_log("*** Semantic Splitter ***", end='\n')
     query_engine = index.as_query_engine()
     retriever = index.as_retriever(similarity_top_k=2)
     query(query_engine, retriever, questions, faithfulness_evaluator, relevancy_evaluator)
 
-    print("*** Base Splitter ***", end='\n')
+    print_log("*** Base Splitter ***", end='\n')
     query_engine_base = index_base.as_query_engine()
     retriever_base = index_base.as_retriever(similarity_top_k=2)
     query(query_engine_base, retriever_base, questions, faithfulness_evaluator, relevancy_evaluator)
 
 def query(query_engine: BaseQueryEngine, retriever: BaseRetriever, questions: list[str], faithfulness_evaluator: FaithfulnessEvaluator, relevancy_evaluator: RelevancyEvaluator):
-    print("==================================================", end='\n')
-    print("Vector pipeline started", end="\n\n")
+    print_log("==================================================", end='\n')
+    print_log("Vector pipeline started", end="\n\n")
           
     for question in questions:
-        print("--------------------------------------------------", end="\n\n")
+        print_log("--------------------------------------------------", end="\n\n")
 
         response = query_engine.query(question)
-        print("Q : " + question, end='\n')
-        print("A : " + str(response), end="\n\n")
+        print_log("Q : " + question, end='\n')
+        print_log("A : " + str(response), end="\n\n")
   
-        print("Retrieved nodes ->", end="\n")
+        print_log("Retrieved nodes ->", end="\n")
         retrieved_nodes = retriever.retrieve(question)
         for node in retrieved_nodes:
-            print()
+            print_log("", end='\n')
             display_node(node)
 
-        print()
-        print("*** Response Evaluation ***", end='\n')
+        print_log("", end='\n')
+        print_log("*** Response Evaluation ***", end='\n')
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(response=response)
         display_evaluation_result(faithfulness_eval_result)
-        print()
+        print_log("", end='\n')
 
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         display_evaluation_result(relevancy_eval_result)
 
-    print()
-    print("Vector pipeline finished", end='\n')
-    print("==================================================", end="\n\n")
+    print_log("", end='\n')
+    print_log("Vector pipeline finished", end='\n')
+    print_log("==================================================", end="\n\n")
 
