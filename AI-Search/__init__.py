@@ -1,6 +1,7 @@
 from basic_vector.pipeline import run_pipeline as run_basic_vector_pipeline
 from basic_semantic_vector.pipeline import run_pipeline as run_basic_semantic_vector_pipeline
 from knowledge_graph.pipeline import run_pipeline as run_graph_pipeline
+from metadata_filtering.pipeline import run_pipeline as run_metadata_pipeline
 
 from dotenv import load_dotenv
 import logging
@@ -18,6 +19,8 @@ def main():
     #logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     #logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
     file_handler = logging.FileHandler('trace.txt')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
     #llama_index.core.set_global_handler("simple")
@@ -32,8 +35,9 @@ def main():
     questions = ["Who is John McCarthy?", "Who is Sam Altman?"]
 
     #run_basic_vector_pipeline(questions, load_from_storage=False)
-    run_basic_semantic_vector_pipeline(questions, load_from_storage=True)
+    #run_basic_semantic_vector_pipeline(questions, load_from_storage=True)
     #run_graph_pipeline(questions, load_from_storage=True)
+    run_metadata_pipeline()
 
 if __name__ == "__main__":
     main()

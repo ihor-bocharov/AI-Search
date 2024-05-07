@@ -5,3 +5,4 @@ llama_index
 llama-index-llms-openai
 textwrap3
 python-dotenv
+llama-index-extractors-entity
