@@ -2,7 +2,11 @@
 # pip install -r requirements.txt
 
 llama_index
+llama-hub
 llama-index-llms-openai
+llama-index-extractors-entity
+llama-index-agent-openai
 textwrap3
 python-dotenv
-llama-index-extractors-entity
+unstructured
+cohere

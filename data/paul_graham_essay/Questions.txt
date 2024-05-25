@@ -1,0 +1,580 @@
+What were the two main things the author worked on before college?
+At what age did the author start writing programs on the IBM 1401?
+Describe the setting of the IBM 1401 where the author worked on programming.
+What language did the author use to write programs on the IBM 1401?
+How did the author input programs into the IBM 1401?
+Why was the author puzzled by the 1401 and what limitations did they face in programming?
+What was the author's clearest memory of working on programs on the IBM 1401?
+What did the author learn about programs from one of their creations on the IBM 1401?
+How did the introduction of microcomputers change the author's programming experience?
+How did the author's experience with programming on the IBM 1401 differ from working with microcomputers?
+What was the significance of microcomputers in changing the way people interacted with computers?
+How did the availability of microcomputers impact the accessibility of programming for individuals?
+What was the first microcomputer that the author's friend built, and how did it influence the author's interest in programming?
+Why did the author's father eventually purchase a TRS-80 computer for the author?
+How did the limitations of memory on the TRS-80 computer impact the way the author's father wrote his book?
+Why did the author initially plan to study philosophy in college instead of programming?
+What realization did the author come to about the field of philosophy once he started college?
+How did the author's dissatisfaction with philosophy courses lead him to switch to studying AI?
+What were the "edge cases" that the author mentions in relation to philosophy?
+How did the author's experiences with philosophy courses influence his decision to pursue a different field of study?
+What novel by Heinlein inspired the author to work on AI?
+What PBS documentary featuring Terry Winograd influenced the author's interest in AI?
+Why did the author decide to switch to AI from philosophy courses?
+What programming language was commonly used for AI in the mid-1980s?
+How did learning Lisp expand the author's concept of programming?
+What was the author's undergraduate thesis focused on?
+What was the name of the intelligent computer in Heinlein's novel?
+How did the author feel about working on the SHRDLU program?
+What was the default programming language at Cornell during the author's time there?
+Why did the author believe that the SHRDLU program was climbing the lower slopes of intelligence?
+What program did the author choose to study at Cornell that allowed them to take any classes they liked?
+Which three graduate schools did the author apply to for AI studies?
+Why did the author choose to focus on Lisp after realizing the limitations of AI programs at the time?
+What did the author find amusingly accurate about the quotes on their diploma?
+What was the main reason people cared about Lisp at the time according to the author?
+What did the author realize about AI during their first year of grad school?
+Who invented the type of parser used in the author's SHRDLU clone?
+What did the author find to be the main flaw in the way AI was being practiced at the time?
+What opportunities did the brokenness of AI programs generate according to the author?
+What did the author decide to do after realizing the limitations of AI programs and focusing on Lisp?
+What was the author's initial focus when deciding to write a book?
+How did writing a book about Lisp hacking help the author learn more about the subject?
+What is the author's view on the alliance between theory and systems in Computer Science?
+Why did the author feel dissatisfied with systems work in Computer Science?
+What realization did the author have while visiting Rich Draves at CMU in 1988?
+What was the author's observation about the longevity of paintings compared to software programs?
+How did the author feel about the idea of building things that would last?
+What was the significance of the surplus Xerox Dandelions in the computer lab?
+How did the author's visit to the Carnegie Institute impact his perspective on creating lasting work?
+Why did the author find the concept of making a living through creating lasting work appealing?
+What was the initial career path the author considered before deciding to pursue art?
+How did the author feel about the possibility of making a living as an artist compared to writing software?
+What motivated the author to start taking art classes at Harvard?
+How did the author manage to take art classes while being enrolled in a PhD program in computer science?
+What dilemma did the author face in terms of balancing his interests in art and computer science?
+How did the author feel about dropping out of grad school as a potential solution to his dilemma?
+What event in April 1990 marked a turning point for the author's academic journey?
+How did the author's advisor, Tom Cheatham, play a role in his academic pursuits?
+What was the author's reaction to his friend Robert Morris getting kicked out of Cornell for writing the internet worm of 1988?
+How did the author's perception of art and artists change over the course of the narrative?
+What was the topic chosen by the author for his dissertation?
+Which art schools did the author apply to and which one accepted him?
+How did the author manage to graduate despite not having written any of his dissertation?
+What classes did the author have to take as part of the foundation program at RISD?
+What was the author's initial plan after applying to art schools?
+How did the author fund his move to Florence to take the entrance exam at the Accademia?
+Why did the author choose to write about continuations for his dissertation instead of macros and embedded languages?
+How did the author describe his decision to go back to college at the age of 25?
+What was the author's reaction to receiving the invitation to take the entrance exam at the Accademia in Florence?
+How did the author's consulting work in grad school help him financially when he decided to move to Italy?
+What was the motivation behind the protagonist's decision to learn Italian?
+Why did only foreigners have to take the entrance exam mentioned in the text?
+How did the protagonist manage to pass the written exam despite limited vocabulary?
+Describe the arrangement between the students and faculty in the painting department at the Accademia.
+What unique feature did the studio in the painting department at the Accademia have?
+What was the profession of the model mentioned in the text?
+How did the model make a living?
+What did the model do for a local antique dealer?
+What did the protagonist start painting in their bedroom at night while studying at the Accademia?
+How did the protagonist spend their time at the Accademia besides painting still lives in their bedroom at night?
+What type of paintings did the author start creating while studying at the Accademia?
+Why did the author paint still lives instead of people?
+How did the author emphasize visual cues in their still life paintings?
+Why did the author enjoy painting still lives?
+What is the difference between everyday visual perception and the detailed observation required for painting?
+How does the act of painting something force the artist to see things differently?
+What does the author mean by stating, "You can still be noticing new things after days of trying to paint something people usually take for granted"?
+How does the author describe the process of painting a still life compared to painting people?
+What does the author suggest is necessary to create paintings that are more realistic than photographs?
+In what way does the author imply that painting requires a deeper level of observation than everyday life?
+What was the reason for the author's decision to return to the US after studying at the Accademia?
+What job did the author secure at Interleaf, and what type of software did the company specialize in?
+How did Interleaf differentiate itself in the software market, and what programming language did they incorporate into their products?
+Why does the author apologize to their boss and coworkers at Interleaf?
+How did the author feel about the traditional concept of a programming job requiring strict adherence to set working hours?
+What project was the author working on surreptitiously towards the end of their time at Interleaf?
+How did the author feel about the teaching methods at the Accademia?
+What was the author's initial plan after returning to the US due to financial constraints?
+How did the author's experience at Interleaf influence their perspective on software development?
+How did the author's attitude towards work hours align with the changing trends in the industry?
+What was the author surreptitiously working on toward the end of the year?
+How did the author manage to save enough money to go back to RISD and pay off college loans?
+What did the author learn about technology companies from their time at Interleaf?
+Why does the author believe it is good to be the "entry level" option in a market?
+How did the author survive for the next several years after leaving Interleaf?
+What new technology did someone tell the author about when they came back to visit for a project later on?
+How did the author feel about the HTML technology initially when it was described as a derivative of SGML?
+What was the author's budget for everything else after paying rent in Florence?
+What did the author learn about code editing from their experience at Interleaf?
+Why does the author believe that prestige is a danger sign in business?
+What was the author's initial reaction to Markup language enthusiasts at Interleaf?
+When did the author move back to Providence to continue at RISD?
+How did the author describe the relationship between art school and art, specifically in the painting department?
+What is a signature style in the context of painting?
+How did the author differentiate between the painting department and other departments at RISD?
+What is the significance of having a signature style for an artist?
+How did earnest students at RISD differ from the tribe of signature style seekers?
+What was the author's background in drawing before attending RISD?
+How did the author feel about being closer to the tribe of earnest students at RISD?
+Why do buyers often pay a lot for artwork with a signature style?
+Who was Paul Graham closer to at RISD, the tribe of kids who could draw or the tribe of signature style seekers?
+Why did Paul Graham drop out of college in 1993?
+What favor did Paul Graham's college friend Nancy Parmet do for him in New York?
+What area of New York City did Paul Graham move to in 1993?
+Why was Paul Graham nervous about money while living in New York?
+What language did Paul Graham not want to program in, leading him to write another book on Lisp?
+What was the title of the book that Paul Graham painted the cover for around the same time he was living in New York?
+Who were Idelle and Julian Weber, and why were they the best thing about New York for Paul Graham?
+What type of artist was Idelle Weber known as?
+What class did Paul Graham take with Idelle Weber at Harvard?
+Who was Idelle Weber and what was her significance in the narrator's life?
+What inspired the narrator to consider becoming rich in late 1994?
+How did the narrator's interest in the World Wide Web come about?
+What was the initial startup idea that the narrator and Robert Morris pursued?
+Why did the idea of putting art galleries online turn out to be unsuccessful?
+How did the narrator and Robert Morris try to attract galleries to their online platform?
+What realization did the narrator have when online stores started to appear?
+How did the narrator become involved in assisting Idelle Weber in her painting class?
+What was the size of the canvases that Idelle Weber liked to paint on?
+How did the narrator's experience with Idelle Weber influence their decision to pursue a career in technology and entrepreneurship?
+What was the initial motivation for the development of online store software by the author and his colleague?
+How did the author and his colleague come up with the idea of running the software on the server and controlling it through user clicks?
+Describe the setting in which the author and his colleague worked on developing the online store software.
+What was the significance of the author's idea to run the software on the server and control it through the browser?
+How did the author and his colleague test the feasibility of creating a version of their store builder controlled through the browser?
+What was the outcome of the author and his colleague's experiment to create a browser-controlled version of their store builder?
+What was the author's reaction to the successful creation of a browser-controlled store builder?
+How did the author describe the user interface of the browser-controlled store builder initially?
+What implications did the successful creation of the browser-controlled store builder have for the future of software development?
+How did the author envision the future of software development based on the success of their browser-controlled store builder?
+What was the name of the new company started by the author and his colleagues?
+How did the author and his team fund their new company?
+What was the main innovation in the software developed by the author's team?
+Why did the author mention having a negative net worth at one point?
+What delayed the original launch date of the software developed by the author's team?
+How did the author's background in art help in the development of the online store builder?
+Why did the author mention that the software used to create his website may look old-fashioned?
+What was the significance of the WYSIWYG site builder developed by the author's team?
+How did the author's experience at Interleaf influence the development of the new software?
+What was the role of Release Engineering at Interleaf, according to the author?
+Who rebelled in September and why?
+How long did Robert work on the project mentioned in the text?
+Who did Robert recommend as a good programmer from grad school?
+What were the three main parts of the software mentioned in the text?
+What was the role of the editor in the software development process?
+How did the press view ecommerce at the time the business opened?
+What was the unique characteristic of Rtm's brain according to the text?
+How did Trevor initially plan to organize his life?
+What was the significance of waiting a few months before opening for business?
+Why were the next 3 years described as the most stressful for the author?
+What was the pricing structure for Viaweb's ecommerce software?
+How did Viaweb unintentionally set their prices lower than competitors?
+What strategy did Viaweb employ to attract users, even if it seemed humiliating?
+What did Viaweb learn about retail through their experiences building stores for users?
+Why did Viaweb decide to have a closeup image of a man's shirt collar rather than a picture of the whole shirt?
+How did Viaweb's lack of knowledge about what businesses paid for things influence their pricing?
+How did Viaweb's experiences building stores for users help them understand the retail industry?
+What was the main focus of Viaweb's software in terms of usability and cost?
+How did Viaweb's pricing strategy impact their competitors?
+How did Viaweb's experiences in the ecommerce industry differ from their expertise in programming?
+What was the initial reaction of the author towards the idea of "business"?
+How did building stores for users contribute to the author's understanding of retail and software usage?
+Why did the author feel the need to hire more people for the startup?
+What did the author learn about the importance of growth rate for a startup?
+How did the author's perspective on the absolute number of users change over time?
+What was the significance of reaching breakeven for the startup?
+How did the author's decision to hire more people impact the company's financial situation?
+What was the outcome of Yahoo buying the author's company?
+How did the author's relationship with investors affect the company's trajectory?
+In what ways did the author's experience with startups differ from what they would advise startups at Y Combinator?
+What was the result of the author and their investors being inexperienced at startups?
+How did the author feel when Yahoo bought their company?
+What was the author's lifestyle like before Yahoo bought their company?
+What kind of car did the author buy after their company was acquired by Yahoo?
+Why did the author feel worn out during the summer of 1998 to the summer of 1999?
+How did the author feel about Yahoo's stock value after the acquisition?
+When did the author leave Yahoo, and why?
+What had the author's brain been focused on for the past 4 years?
+Why did the author remind themselves that they should go paint after becoming rich?
+How did the author's boss at Yahoo react when the author announced they were leaving?
+Why did the boss at Yahoo have a long conversation with the speaker about their plans to leave?
+What was the speaker's reason for leaving Yahoo, according to the context?
+How did the speaker feel about their boss's reaction to their decision to leave Yahoo?
+What advice does the speaker give to founders who are leaving after selling their companies?
+What difficulties did the speaker face when they tried to paint after leaving Yahoo?
+Why did the speaker feel they lacked energy and ambition when trying to paint in California?
+What was the significance of the speaker buying a house in the Santa Cruz Mountains?
+Why did the speaker decide to go back to New York in desperation?
+How did the speaker's life change when they returned to New York?
+What was the speaker's experience like when they resumed their old life in New York after becoming rich?
+What was the author's experience like after returning to New York?
+How did the author's newfound wealth impact their daily life?
+What new artistic technique did the author experiment with during this time?
+How did the author's ability to choose their neighborhood for an apartment reflect their changed circumstances?
+What realization did the author come to about finding a neighborhood similar to Cambridge in New York?
+What idea did the author have in the spring of 2000, and why did they find it exciting?
+How did the author plan to implement their idea for a web app for making web apps?
+Why did the author decide to move to Cambridge to start their new venture?
+Who did the author hope to work with on their new project, and what obstacle did they encounter?
+How did the author's excitement about their new idea impact their future plans?
+What was the initial idea that the author hoped to work on with Robert?
+Why did Robert refuse to work on the project with the author?
+Who did the author recruit to work on the project after Robert declined?
+What was the name of the company that the author started working on?
+What type of company was Viaweb classified as?
+What were the specific tasks assigned to the author and his team members during the project?
+Why did the author decide halfway through the summer that he did not want to run a company?
+What did the author decide to do with the project instead of turning it into a full-fledged company?
+How did the author feel about the time spent working on the project in retrospect?
+How did the author's experience with the project benefit him after starting Y Combinator?
+What new architecture were startups working on that the author found useful to have thought about?
+Why did the author decide to build a new Lisp as an open source project?
+What is one of the distinctive features of the Lisp language that motivates Lisp hackers to dream of building a new Lisp?
+What was the name of the new dialect of Lisp that the author and Dan worked on in Cambridge?
+What happened after the author gave a talk at a Lisp conference and posted a postscript file online?
+How did the author realize the power of publishing content on the web?
+When did the possibility of anyone publishing anything on the web become available in principle?
+How long did it take the author to realize the potential of publishing content on the web, despite being involved in building the web infrastructure?
+What did the author realize about the implications of anyone being able to publish anything on the web?
+What did the author predict would result from the newfound ability for anyone to publish essays on the web?
+What was the turning point for the author in figuring out what to work on?
+How did the author feel about online essays being a marginal medium at first?
+What was the author's observation about working on things that weren't prestigious in his life?
+Why does the author believe that being drawn to work despite its lack of prestige is a sign of having the right motives?
+What was the author's experience with Viaweb and Y Combinator when they were started?
+How did the author view the social perception of online essays compared to traditional publications like The New Yorker?
+Why does the author mention that unprestigious types of work are not inherently good?
+What does the author believe is a big danger for the ambitious?
+How did the author feel about explaining to strangers that he was writing an essay for his website?
+What does the author believe is the danger of having impure motives when pursuing ambitious goals?
+What was the title of the book that O'Reilly reprinted a collection of essays by the author?
+What type of building did the author buy in Cambridge to use as an office?
+Who organized the big party at the author's house in October 2003?
+What was the clever idea behind the party organized by Maria Daniels?
+Who did the author ask out after meeting her at the party?
+What was Jessica Livingston's role at a Boston investment bank?
+Why did Jessica Livingston decide to compile a book of interviews with startup founders?
+What event led Jessica Livingston to start looking for a new job?
+What type of job did Jessica Livingston interview for at a Boston VC firm in early 2005?
+What did the author start telling Jessica Livingston during the time she was waiting for a decision from the VC firm?
+What was one of the key suggestions Paul Graham made about venture capital in his talk to the Harvard Computer Society?
+Why did Paul Graham feel pressured to stop procrastinating about angel investing after giving a talk at the Harvard Computer Society?
+How did Paul Graham's discussions with Robert and Trevor lead to a new opportunity for collaboration?
+What event caused Paul Graham to decide to start his own investment firm?
+What specific location and date did Paul Graham and Jessica have a significant conversation that led to the decision to start their own investment firm?
+How did Paul Graham feel about the VCs who were taking a long time to make up their minds about a marketing job for Jessica?
+What was one of the strategies Paul Graham suggested for startups to secure seed funding?
+Why did Paul Graham feel that giving talks was a helpful strategy for writing essays?
+What was Paul Graham's reaction when he realized that successful startup founders could be valuable sources of advice and funding?
+How did Paul Graham's experience with Yahoo influence his decision to finally pursue angel investing?
+What were some of the challenges faced by founders that led to the creation of Y Combinator?
+How did the ignorance of the founders work in their favor when starting Y Combinator?
+What was the initial focus of Y Combinator when it was first established?
+How did Y Combinator differ from traditional VC firms and angel investors in terms of the investments they made?
+Why did the founders decide to fund Y Combinator with their own money instead of raising a fund?
+What was one of the key aspects of Y Combinator that set it apart from other investment firms?
+How did Julian help the founders of Y Combinator when they were starting out?
+What was the significance of the batch model used by Y Combinator in funding startups?
+How did the founders' lack of knowledge about VC firms and fundraising impact the development of Y Combinator?
+How did Y Combinator aim to support startups beyond just providing seed investments?
+What is the most distinctive thing about Y Combinator according to the text?
+How did the founders of Y Combinator come up with the idea for the Summer Founders Program?
+Why did the founders decide to fund a bunch of startups all at once?
+What was the purpose of organizing a summer program for undergrads to start startups?
+How did the founders plan to gain experience as investors through the Summer Founders Program?
+What role did the building in Cambridge play in the operations of Y Combinator?
+How did the founders attract applicants for the Summer Founders Program?
+Why were the founders surprised by the applicants for the Summer Founders Program?
+How did the founders select the startups to fund from the pool of applicants?
+What was the outcome of the selection process for the Summer Founders Program?
+What was the criteria for selecting startups to fund in the Summer Founders Program?
+Who were some of the notable individuals in the first batch of startups funded by the Summer Founders Program?
+How much funding did each founder receive in the typical two-founder case?
+What advantages did Paul Graham realize in scaling startup funding through funding startups in batches?
+How did the sense of community among YC alumni benefit the startups in the program?
+How did the startups in the program become each other's customers?
+What was the significance of the "YC GDP" joke in relation to the growth of Y Combinator?
+How did the Summer Founders Program address the problem of isolation faced by founders?
+How did the alumni of Y Combinator contribute to helping the current batch of startups?
+How did the initial set of customers for many startups in the program come from their batchmates?
+What was the original intention behind Y Combinator (YC) according to the text?
+How did YC evolve over time as mentioned in the text?
+What was the initial purpose of Hacker News (HN) and why was its name changed?
+How did the creation of Hacker News impact the author's workload and stress levels?
+What role did Hacker News play in relation to Y Combinator (YC) according to the text?
+Why does the author consider Hacker News to be a source of stress and a potential mistake?
+How did the author address the issue of reading only about startups on Hacker News?
+What software language was used to develop the new version of Arc mentioned in the text?
+What other tasks did the author undertake in addition to working on Y Combinator (YC) and Hacker News?
+How did the author describe the relationship between Hacker News and the core work of Y Combinator (YC) in terms of stress and challenges?
+What programming language did Paul Graham use to write YC's internal software?
+Why did Paul Graham gradually stop working on Arc?
+How did YC differ from other kinds of work Paul Graham had done?
+What did Kevin Hale say about companies and hard work that motivated Paul Graham?
+Who offered Paul Graham unsolicited advice in 2010, and what was the advice?
+What were some of the challenges Paul Graham faced while working on YC?
+How did Paul Graham feel about working on the parts of the job he didn't like?
+How did Robert Morris help Paul Graham when he was suffering from a kidney stone at Viaweb?
+What was the significance of Robert Morris's advice to Paul Graham about Y Combinator?
+How did Paul Graham feel about the advice given to him by Robert Morris?
+Who offered unsolicited advice to the author, and what was the advice?
+What realization led the author to consider handing over Y Combinator to someone else?
+What event in the summer of 2012 prompted the author to think about leaving Y Combinator?
+Why did the author ask Jessica to be president of Y Combinator, and what was her response?
+Why did the author and his colleagues decide that Y Combinator couldn't be controlled by the founders for it to last long?
+What was the plan for the reorganization of Y Combinator if Sam Altman agreed to become president?
+What were the roles of Robert, Jessica, and Trevor in the decision to hand over control of Y Combinator?
+Initially, what did Sam Altman want to do instead of becoming president of Y Combinator?
+How did the author's mother's health issues play a role in his decision to step down from Y Combinator?
+How did the author's conversation with Rtm lead to his eventual decision to leave Y Combinator?
+Who were the individuals mentioned as potential partners in the context?
+What was Sam initially interested in starting before becoming president of YC?
+When did the narrator's mother pass away?
+Why did the narrator leave running YC to Sam in 2013?
+What did the narrator decide to do after leaving YC in 2014?
+How did the narrator spend most of 2014?
+What made the narrator stop working on a painting in November?
+How did the narrator feel about finishing the painting in progress?
+What did the narrator do after stopping work on the painting in November?
+According to the context, why did the narrator stop painting after running out of steam?
+What project did the author stop working on and why?
+Why does the author believe attention is a zero-sum game?
+When did the author start working on Lisp again?
+What is the distinctive feature of Lisp mentioned in the text?
+How did Lisp originally start and evolve into a programming language?
+Who suggested that Lisp could be used to program computers?
+What was missing in McCarthy's 1960 Lisp interpreter?
+How were the missing features added to Lisp?
+Why was McCarthy's original axiomatic approach not feasible at the time?
+How did McCarthy test his interpreter initially and what issue did he encounter?
+What was the method used by McCarthy to test his interpreter?
+Why was it difficult to test more complicated interpreters in the past?
+How long did it take the author to develop the new Lisp language, Bel?
+What approach did the author take to develop Bel?
+Why did the author have to ban himself from writing essays during the development of Bel?
+How did the author describe the difficulty of working on an interpreter written in itself?
+What was the author's strategy regarding writing essays while working on Bel?
+Why did the author choose not to share information about Bel while working on it?
+How did the author's dedication to developing Bel compare to his previous work efforts?
+What challenges did the author face while working on Bel, particularly in terms of understanding the code?
+What was the project that the author, Paul Graham, worked on intensively for years without telling many people about it?
+When did Paul Graham finish working on the project Bel?
+Where was most of the code for Bel written?
+Why did Paul Graham and his family move to England in 2016?
+How does Paul Graham describe the process of working on Bel?
+What is Bel, in relation to McCarthy's original Lisp?
+What did Paul Graham do once he finished working on Bel in 2019?
+How did Paul Graham decide what to work on in the past?
+Why did Paul Graham write an essay for himself to answer a question about choosing what to work on?
+What was the motivation behind Paul Graham writing a more detailed version of the essay for others to read?
+What was the author's experience with computers like, and how did it influence their perception of microcomputers?
+How did the author describe their daily walk to the Accademia in Florence?
+How did Moore's Law impact companies like Interleaf in the 1990s?
+In the art world, what is the relationship between money and coolness according to the author?
+What distinction does the author make between rent-controlled and rent-stabilized apartments in New York City?
+How does the author describe the relationship between expensive items and coolness in the art world?
+What is the significance of the signature style seekers at RISD according to the author?
+How does the author describe the evolution of computers from time-sharing machines to microcomputers?
+How does the author suggest one can make a little Italian language go a long way?
+What is the author's observation about launching most software once it's completed?
+What was the significance of launching privately before launching publicly for the online store builder mentioned in the text?
+How did users edit their page styles in Viaweb, without realizing they were editing Lisp expressions?
+Why did the author receive negative comments when claiming that Lisp was better than other languages?
+What is the difference between putting something online and publishing it online, according to the text?
+How did the author's experience with Y Combinator relate to the customs of the VC practice mentioned in the text?
+How have startups changed in terms of cost and frequency, and how has this impacted VC practices?
+What lesson does the author suggest can be learned from their experience with Y Combinator and the evolution of VC practices?
+How does the author describe the constraints that customs can place on individuals and industries, using examples from the text?
+Why does the author mention the customs of writing essays in relation to the evolution of VC practices?
+What qualities does the author suggest are important for individuals who are independent-minded, based on the text?
+What was the reason behind renaming the company from Cambridge Seed to Y Combinator?
+Why did Paul Graham choose orange as the color for Y Combinator?
+How did the YC logo pay homage to the previous Viaweb logo?
+Why did Y Combinator become a fund for a couple of years starting in 2009?
+How did Y Combinator manage to go back to being self-funded after a period of being a fund?
+What is the purpose of Y Combinator according to the text?
+How did the founder's wife describe the air conditioners she had to purchase during a run on them?
+What problem did the founder encounter with Hacker News (HN) due to writing essays and running a forum?
+How did the customs of VCs reflect the old world despite the changes in technology and business?
+How does the text suggest that independent-minded individuals have an advantage in fields affected by rapid change?
+What is the potential issue that arises when running a forum and writing essays simultaneously, according to the text?
+How does the combination of running a forum and writing essays lead to a challenging situation for the author?
+Why does the author feel the need to respond to misinterpretations of their essays on forums?
+What is described as the worst thing about leaving Y Combinator for the author?
+How does the author describe the impact of leaving Y Combinator on their personal life?
+How does the author suggest getting more precise about the concept of invented vs discovered?
+What example does the author use to illustrate the concept of invented vs discovered?
+Who does the author thank at the end of the text for reading drafts of the essay?
+How does the author suggest that aliens would have knowledge of certain mathematical concepts?
+What is the significance of preserving "discoveredness" along a path out of McCarthy's Lisp, according to the text?
+What were the two main things the author worked on before college?
+At what age did the author start writing programs on the IBM 1401?
+How did the author input programs into the IBM 1401?
+What technical error occurred on a machine without time-sharing according to the data center manager?
+What novel by Heinlein inspired the author to work on AI?
+What PBS documentary featured Terry Winograd using SHRDLU?
+How did the author's perception of philosophy change over time?
+What was the author's undergraduate thesis about?
+Why did the author choose to focus on Lisp after realizing the limitations of AI?
+Which three graduate schools did the author apply to for studying Artificial Intelligence?
+What program did the author choose to study at Cornell that allowed them to take any classes they liked?
+Why did the author decide to focus on Lisp after realizing the limitations of AI programs at the time?
+What was the name of the parser invented by Bill Woods that the author used in their SHRDLU clone?
+Why did the author find the traditional way of doing AI, with explicit data structures representing concepts, not effective?
+What opportunities did the brokenness of traditional AI systems create for researchers according to the author?
+When was the book "On Lisp" published?
+How did the author's visit to Rich Draves at CMU influence his perspective on building things?
+What was the significance of the surplus Xerox Dandelions in the computer lab?
+How did the author balance pursuing art while being in a PhD program in computer science?
+What event in April 1990 led to a potential change in the author's academic path?
+What was the topic chosen by the author for his dissertation?
+Which art schools did the author apply to and which one accepted him?
+How did the author manage to save money for his trip to Florence?
+Why did the author decide to write about continuations for his dissertation?
+What was the motivation behind the protagonist's decision to learn Italian?
+Describe the dynamics between the students and faculty in the painting department at the Accademia.
+What unique feature did the studio at the Accademia have, reminiscent of 19th-century ateliers?
+How did the model supplement her income besides modeling?
+What did the protagonist start painting in his bedroom at night while studying at the Accademia?
+Reflecting on the protagonist's experiences at the Accademia, what was the author's perception of the Accademia di Belli Arti in Florence?
+What patterns can be observed in the author's academic pursuits so far?
+Why did the author paint still lives instead of people while studying at the Accademia?
+How did the author's financial situation influence the size of the paintings?
+What is the difference between painting still lives and painting people according to the author?
+How does the author describe the process of painting a still life in terms of capturing details?
+Why did the author enjoy painting still lives?
+How does the author explain the difference in visual perception between everyday life and painting?
+According to the author, what is emphasized in a still life painting to make it more realistic than a photograph?
+What unique feature did Interleaf add to their software inspired by Emacs?
+How did the author manage to save enough money to go back to RISD and pay off college loans?
+What is the danger sign when it comes to prestige in business according to the text?
+How did the author survive for the next several years after leaving Interleaf?
+What new technology was the author told about when they came back to visit for a project later on?
+How did the author describe their budget while living in Florence?
+What did the author learn about editing code from their experience at Interleaf?
+Why did the author believe it was better for technology companies to be run by product people rather than sales people?
+How did the author use what they learned at Interleaf in both Viaweb and Y Combinator?
+When did the author move back to Providence to continue at RISD?
+What was the experience of the earnest students who came to RISD to learn to draw even better?
+Why did Paul Graham drop out of college in 1993?
+What type of book did Paul Graham plan to write in order to support himself financially?
+What was the significance of the rent-controlled apartment in New York that Nancy Parmet offered to Paul Graham?
+How did Paul Graham describe his experience in the color class he took at RISD?
+Who was Idelle Weber and what was her significance in the narrator's life?
+How did the narrator become involved with the World Wide Web and what was their initial impression of its potential?
+Why did art galleries prove to be a challenging market for the narrator's startup idea?
+What was the outcome of the narrator's attempts to sign up galleries for their online platform?
+What was the initial motivation for the author to start building online stores?
+Where were the author and his partner working from when they started developing software for online stores?
+What vision did the author have for the future of software development based on their success with the browser-controlled store builder?
+How did the author feel after successfully creating the browser-controlled store builder?
+What was the main innovation in the software developed by the author and his partner?
+Why did the author mention having a negative net worth at one point?
+How did the author's background in art help in the development of the online store builder?
+Who rebelled in September according to the text?
+How many stores did the business open with in January 1996?
+What was the pricing structure for Viaweb's ecommerce software?
+How did Viaweb attract users to their software?
+Why did Viaweb have to rescan images of men's shirts?
+How did Viaweb's approach of "doing things that don't scale" benefit their business?
+How did the approach of "doing things that don't scale" benefit Viaweb's business according to the document?
+How did Viaweb's lack of knowledge about business pricing influence their pricing decisions as mentioned in the document?
+What was the significance of having a closeup image of a man's shirt rather than a full image for Viaweb?
+In what way did building stores for users help Viaweb improve their software based on the information provided?
+What was the initial reaction of the author towards the idea of focusing on building stores for users in the document?
+Why did the author believe that growth rate is the ultimate test of a startup according to the document?
+How did the growth rate of the author's startup compare from 1996 to 1997 as mentioned in the document?
+What mistake did the author make in focusing on the absolute number of users rather than the growth rate based on the information provided?
+When did the author's startup reach breakeven, and what were the consequences of not reaching it earlier according to the document?
+How did the inexperience of both the author and their investors impact the life of the company as described in the document?
+How did the speaker feel about their boss's reaction to their decision to leave Yahoo?
+What advice does the speaker give to founders who are leaving after selling their companies?
+Why did the speaker feel they lacked energy and ambition when they tried to paint?
+What was the speaker's living situation like in California after leaving Yahoo?
+Why did the speaker decide to go back to New York in desperation?
+How did the speaker's life change upon returning to New York?
+Who was Idelle, and why is their presence mentioned in the context?
+How did the author's newfound wealth impact their daily life?
+What new artistic experiment did the author undertake with still life paintings?
+Why did the author decide to move to Cambridge to start a new company?
+Did the author plan to make Lisp more accessible to a general audience in the new company?
+What new architecture were startups working on that the author found useful to have thought about?
+Why did the author decide to build a new Lisp as an open source project?
+What is the name of the new dialect of Lisp that the author and Dan worked on?
+How did lightning strike for the author in the following spring?
+When was it first possible for anyone to publish anything on the web?
+What role did the author play in building the infrastructure of the web?
+How did the author's realization about publishing on the web lead to a new generation of essays?
+What was the turning point for the author in figuring out what to work on?
+Who organized a big party at the author's house in October 2003?
+What was Jessica Livingston's role at a Boston investment bank before deciding to compile a book of interviews with startup founders?
+Why did Paul Graham feel motivated to start giving talks as a way to write essays?
+How did Paul Graham's conversation with Jessica on March 11 lead to a significant decision regarding starting his own investment firm?
+What were some of the challenges faced by founders in the early days of Y Combinator, according to the text?
+How did Y Combinator differ from traditional VC firms and angel investors in terms of the support provided to startups?
+Why did the founders of Y Combinator decide to fund the program with their own money instead of raising a fund?
+What was the significance of Julian's role in helping the founders of Y Combinator set up their own company?
+How did the founders' ignorance of traditional angel investing practices work in their favor when starting Y Combinator?
+What was the main focus of Y Combinator's unique batch model for funding startups?
+Why did the founders of Y Combinator decide to bring on partners like Robert and Trevor to help with the program?
+What challenges faced by startups in the early stages of development did the founders of Y Combinator aim to address?
+Why did the founders of Y Combinator decide to bring on partners like Robert and Trevor to help with the program?
+How did the lack of established angel investors in Boston in 2005 contribute to the novel approach taken by Y Combinator?
+What is the most distinctive feature of Y Combinator according to the text?
+How did the founders of Y Combinator come up with the idea for the Summer Founders Program?
+Why did the founders decide to fund a bunch of startups all at once?
+How did the founders attract applicants for the Summer Founders Program?
+How did the founders select the startups to fund from the pool of applicants?
+What advantages did Paul Graham realize in funding startups in batches?
+How did the alumni of Y Combinator contribute to the success of current batches of startups?
+What was the significance of Hacker News (HN) in relation to Y Combinator (YC) as described in the text?
+Why did the author change the name of Startup News to Hacker News?
+How did the author feel about the role of Hacker News (HN) in relation to Y Combinator (YC), based on the text?
+What was the author's role in developing YC's internal software?
+How did the author describe the stress caused by Hacker News (HN) in comparison to other aspects of their work?
+What was the relationship between Y Combinator (YC) and the initial set of customers for startups, as mentioned in the text?
+How did the author balance their time between different projects like hacking, writing essays, and working on Y Combinator (YC)?
+What was the significance of the new version of Arc developed by the author and Robert in the summer of 2006?
+Why did Paul Graham gradually stop working on Arc?
+What event in the summer of 2012 prompted the author to think about passing on Y Combinator (YC)?
+Who was involved in the decision to hand over Y Combinator to someone else?
+What was Sam Altman's initial response when asked if he wanted to be president of Y Combinator?
+What did Sam Altman initially want to do instead of becoming president of Y Combinator?
+How did the author and his colleagues plan to transition out of their roles at Y Combinator if Sam Altman took over as president?
+Who were mentioned as potentially becoming ordinary partners in the context?
+When did the speaker's mother pass away?
+Why did the speaker leave running Y Combinator to Sam in 2013?
+What did the speaker decide to do after leaving Y Combinator in 2014?
+How did the speaker spend most of 2014?
+Why did the speaker stop working on a painting in November?
+What approach did the author take to develop Bel?
+Why did the author have to ban himself from writing essays during the development of Bel?
+How did the author describe the difficulty of working on an interpreter written in itself?
+What challenges did the author face while working on Bel?
+When did Paul Graham figure out how to deal with a problem involving continuations while working on Bel?
+How was Bel described in relation to McCarthy's original Lisp?
+How did Moore's Law impact companies like Interleaf in the 1990s?
+How are money and coolness interconnected in the art world according to the text?
+What is the difference between rent-controlled and rent-stabilized apartments, as mentioned in the text?
+How did the exponential growth in the power of commodity processors affect high-end technology?
+How did the exponential growth in the power of commodity processors affect high-end, special-purpose hardware and software companies?
+What was the significance of launching privately before launching publicly for the online store builder mentioned in the text?
+How did users edit their page styles in Viaweb, without realizing they were editing Lisp expressions?
+Why did the author receive negative comments when claiming that Lisp was better than other languages?
+How did customary VC practices and customs about publishing essays change over time, as described in the text?
+What lesson does the author suggest can be learned from their experience with Y Combinator and customary VC practices?
+Why were startups once more expensive to start, according to the text?
+How did the author compare the customs of VCs and customs about writing essays to the constraints of the old world?
+What implication does the text suggest for people who are independent-minded?
+When did Y Combinator become a fund for a couple of years?
+Why did Y Combinator revert to being self-funded?
+How does the YC logo relate to the Viaweb logo?
+What is the significance of "deal flow" in relation to Y Combinator's purpose?
+How did the founder of Y Combinator address the issue of a fixed number of new startups at any given time?
+What problem did the founder of Y Combinator encounter with Hacker News (HN) due to running a forum and writing essays?
+How did the founder of Y Combinator falsify the idea that the number of new startups is fixed?
+In what way did the founder of Y Combinator believe that being independent-minded could provide an advantage in fields affected by rapid change?
+Why is it necessary to respond to misinterpretations of essays when running a forum, as mentioned in the text?
+Who does the author mention as a significant person they miss working with after leaving Y Combinator (YC)?
+How does the author suggest that the concept of discoveredness may be preserved along a certain path beyond McCarthy's Lisp?
