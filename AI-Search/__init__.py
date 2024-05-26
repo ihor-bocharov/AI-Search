@@ -11,6 +11,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core import Settings, ServiceContext
 import llama_index.core
 from llama_index.core.callbacks import CallbackManager, LlamaDebugHandler
+import asyncio
 
 def main():
 
@@ -48,6 +49,6 @@ def main():
     #run_graph_pipeline(questions, load_from_storage=True)
     #run_metadata_pipeline()
     run_agentic_pipeline(questions, load_from_storage=True)
-
+    
 if __name__ == "__main__":
     main()

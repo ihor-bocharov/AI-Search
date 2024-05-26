@@ -1,10 +1,10 @@
 import os
-import shutil
 from pathlib import Path
 import pickle
 from typing import List
 import nest_asyncio
-from tqdm.notebook import tqdm
+import asyncio
+import helpers.file_helper as file_helper
 from llama_hub.file.unstructured.base import UnstructuredReader
 from llama_index.agent.openai import OpenAIAgent
 from llama_index.core.node_parser import SentenceSplitter
@@ -21,20 +21,34 @@ from llama_index.core import (
 )
 
 # Settings
-doc_limit = 10
+doc_limit = 3
+file_list_name = "files.txt"
 source_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\docs.llamaindex.ai"
-vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai"
-summary_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai"
+base_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai"
+vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\vector-index"
+summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
+summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     nest_asyncio.apply()
 
     if not load_from_storage:
-        shutil.rmtree(vector_index_store_path)
+        file_helper.remove_directory_tree(base_store_path)
+        docs = load_documents_from_source(source_data_dir, doc_limit)
+    else:
+        docs = []
 
-    docs = load_documents_from_source(source_data_dir, doc_limit)
     agents_dict, extra_info_dict = build_agents(docs, load_from_storage)
 
+    # define tool for each document agent
+    all_tools = []
+    for file_base, agent in agents_dict.items():
+        summary = extra_info_dict[file_base]["summary"]
+        doc_tool = QueryEngineTool(
+            query_engine=agent,
+            metadata=ToolMetadata(name=f"tool_{file_base}", description=summary)
+        )
+        all_tools.append(doc_tool)
 
 def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     UnstructuredReader = download_loader('UnstructuredReader')
@@ -47,11 +61,12 @@ def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     print("Loaded " + str(len(all_html_files)) + " files", end='\n')
 
     docs = []
+    files = []
     files_count = len(all_html_files)
     for idx, f in enumerate(all_html_files):
-        if idx > doc_limit:
+        if idx >= doc_limit:
             break
-        print(f"File {idx} from {files_count}")
+        print(f"File {idx} from {doc_limit}. Total : {files_count}")
         loaded_docs = reader.load_data(file=f, split_documents=True)
 
         # Hardcoded Index. Everything before this is ToC for all pages
@@ -63,6 +78,10 @@ def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
         print("Loaded document : " + loaded_doc.metadata["path"])
         docs.append(loaded_doc)
 
+        files.append(create_doc_key(f))
+
+    file_helper.save_list_to_file(files, base_store_path, file_list_name)
+
     return docs
 
 def build_agents(docs, load_from_storage: bool):
@@ -72,43 +91,52 @@ def build_agents(docs, load_from_storage: bool):
     agents_dict = {}
     extra_info_dict = {}
 
-    # # this is for the baseline
-    # all_nodes = []
+    if load_from_storage:
+        for doc in enumerate(docs):
+            nodes = node_parser.get_nodes_from_documents([doc])
 
-    for idx, doc in enumerate(docs):
-        nodes = node_parser.get_nodes_from_documents([doc])
-        # all_nodes.extend(nodes)
+            # ID will be base + parent
+            file_key = create_doc_key(Path(doc.metadata["path"]))
+            agent, summary = create_agent_per_doc(nodes, file_key, load_from_storage)
 
-        # ID will be base + parent
-        file_path = Path(doc.metadata["path"])
-        file_base = str(file_path.parent.stem) + "_" + str(file_path.stem)
-        agent, summary = build_agent_per_doc(nodes, file_base, load_from_storage)
+            agents_dict[file_key] = agent
+            extra_info_dict[file_key] = {"summary": summary, "nodes": nodes}
+    else:
+        file_keys = file_helper.load_list_from_file(base_store_path, file_list_name)
+        for file_key in file_keys:
+            agent, summary = create_agent_per_doc([], file_key, load_from_storage)
 
-        agents_dict[file_base] = agent
-        extra_info_dict[file_base] = {"summary": summary, "nodes": nodes}
+            agents_dict[file_key] = agent
+            extra_info_dict[file_key] = {"summary": summary, "nodes": []}
 
     return agents_dict, extra_info_dict
 
-def build_agent_per_doc(nodes, file_base, load_from_storage: bool):
-    print("File base : " + file_base)
+def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
+    print("File key : " + file_key)
     
-    vector_index_out_path = os.path.join(vector_index_store_path, file_base)
-    summary_out_path = os.path.join(summary_store_path, file_base +"_summary.pkl")
-    if not os.path.exists(vector_index_out_path):
-        # Create root
-        Path(vector_index_store_path).mkdir(parents=True, exist_ok=True)
-
+    vector_index_out_path = os.path.join(vector_index_store_path, file_key)
+    summary_index_out_path = os.path.join(summary_index_store_path, file_key)
+    summary_out_file = os.path.join(summary_extracted_store_path, file_key +"_summary.pkl")
+    if not load_from_storage:
         # build vector index
         vector_index = VectorStoreIndex(nodes, service_context=Settings.service_context)
         vector_index.storage_context.persist(persist_dir=vector_index_out_path)
+
+        # build summary index
+        summary_index = SummaryIndex(nodes, service_context=Settings.service_context)
+        summary_index.storage_context.persist(persist_dir=summary_index_out_path)
     else:
+        # build vector index
         vector_index = load_index_from_storage(
             StorageContext.from_defaults(persist_dir=vector_index_out_path),
-            service_context=Settings.service_context,
+            service_context=Settings.service_context
         )
 
-    # build summary index
-    summary_index = SummaryIndex(nodes, service_context=Settings.service_context)
+        # build summary index
+        summary_index = load_index_from_storage(
+            StorageContext.from_defaults(persist_dir=summary_index_out_path),
+            service_context=Settings.service_context
+        )
 
     # define query engines
     vector_query_engine = vector_index.as_query_engine()
@@ -117,26 +145,31 @@ def build_agent_per_doc(nodes, file_base, load_from_storage: bool):
     )
 
     # extract a summary
-    if not os.path.exists(summary_out_path):
-        Path(summary_out_path).parent.mkdir(parents=True, exist_ok=True)
-        summary = str(summary_query_engine.aquery("Extract a concise 1-2 line summary of this document"))
-        pickle.dump(summary, open(summary_out_path, "wb"))
+    if not load_from_storage:
+        Path(summary_out_file).parent.mkdir(parents=True, exist_ok=True)
+        summary = str(asyncio.run(summary_query_engine.aquery("Extract a concise 1-2 line summary of this document")))
+        pickle.dump(summary, open(summary_out_file, "wb"))
     else:
-        summary = pickle.load(open(summary_out_path, "rb"))
+        summary = pickle.load(open(summary_out_file, "rb"))
 
+    agent = build_agent(vector_query_engine, summary_query_engine, file_key)
+    print("Summary : " + summary)
+    return agent, summary
+
+def build_agent(vector_query_engine, summary_query_engine, file_key: str):
     # define tools
     query_engine_tools = [
         QueryEngineTool(
             query_engine=vector_query_engine,
             metadata=ToolMetadata(
-                name=f"vector_tool_{file_base}",
+                name=f"vector_tool_{file_key}",
                 description=f"Useful for questions related to specific facts",
             ),
         ),
         QueryEngineTool(
             query_engine=summary_query_engine,
             metadata=ToolMetadata(
-                name=f"summary_tool_{file_base}",
+                name=f"summary_tool_{file_key}",
                 description=f"Useful for summarization questions",
             ),
         ),
@@ -148,11 +181,12 @@ def build_agent_per_doc(nodes, file_base, load_from_storage: bool):
         llm=Settings.llm,
         verbose=True,
         system_prompt=f"""\
-You are a specialized agent designed to answer queries about the `{file_base}.html` part of the LlamaIndex docs.
+You are a specialized agent designed to answer queries about the `{file_key}.html` part of the LlamaIndex docs.
 You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge.\
 """,
     )
 
-    return agent, summary
+    return agent
 
-
+def create_doc_key(file_path:str):
+    return str(file_path.parent.stem) + "_" + str(file_path.stem)
