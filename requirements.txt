@@ -10,3 +10,4 @@ textwrap3
 python-dotenv
 unstructured
 cohere
+llama-index-postprocessor-cohere-rerank

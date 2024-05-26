@@ -48,7 +48,7 @@ def main():
     #run_basic_semantic_vector_pipeline(questions, load_from_storage=True)
     #run_graph_pipeline(questions, load_from_storage=True)
     #run_metadata_pipeline()
-    run_agentic_pipeline(questions, load_from_storage=True)
+    run_agentic_pipeline(questions, load_from_storage=False)
     
 if __name__ == "__main__":
     main()

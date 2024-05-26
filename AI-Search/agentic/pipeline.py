@@ -3,25 +3,30 @@ from pathlib import Path
 import pickle
 from typing import List
 import nest_asyncio
-import asyncio
 import helpers.file_helper as file_helper
+from  .extensions import CustomRetriever, CustomObjectRetriever
+
 from llama_hub.file.unstructured.base import UnstructuredReader
 from llama_index.agent.openai import OpenAIAgent
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.core.query_engine import SubQuestionQueryEngine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
-from llama_index.core import download_loader, SimpleDirectoryReader
 from llama_index.core import (
     Settings,
     VectorStoreIndex,
     SummaryIndex,
     Document,
+    download_loader,
     load_index_from_storage,
     StorageContext,
 )
+from llama_index.core.objects import (
+    ObjectIndex,
+    SimpleToolNodeMapping,
+)
+from llama_index.core.agent import ReActAgent
 
 # Settings
-doc_limit = 3
+doc_limit = 1314
 file_list_name = "files.txt"
 source_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\docs.llamaindex.ai"
 base_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai"
@@ -49,6 +54,41 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
             metadata=ToolMetadata(name=f"tool_{file_base}", description=summary)
         )
         all_tools.append(doc_tool)
+
+    tool_mapping = SimpleToolNodeMapping.from_objects(all_tools)
+    obj_index = ObjectIndex.from_objects(
+            all_tools,
+            tool_mapping,
+            VectorStoreIndex,
+        )
+    vector_node_retriever = obj_index.as_node_retriever(similarity_top_k=10)
+
+    custom_node_retriever = CustomRetriever(vector_node_retriever)
+
+    # wrap it with ObjectRetriever to return objects
+    custom_obj_retriever = CustomObjectRetriever(
+        custom_node_retriever, tool_mapping, all_tools, llm=Settings.llm
+    )
+
+    tmps = custom_obj_retriever.retrieve("hello")
+    print(len(tmps))
+    top_agent = ReActAgent.from_tools(
+        tool_retriever=custom_obj_retriever,
+        system_prompt=""" \
+    You are an agent designed to answer queries about the documentation.
+    Please always use the tools provided to answer a question. Do not rely on prior knowledge.\
+
+    """,
+        llm= Settings.llm,
+        verbose=True,
+    )
+
+    response = top_agent.query(
+        "Tell me about LlamaIndex connectors"
+    )
+    print("Q: Tell me about LlamaIndex connectors")
+
+    print(f"A: {response}")
 
 def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     UnstructuredReader = download_loader('UnstructuredReader')
@@ -84,15 +124,15 @@ def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
 
     return docs
 
-def build_agents(docs, load_from_storage: bool):
+def build_agents(docs: List[Document], load_from_storage: bool):
     node_parser = SentenceSplitter()
 
     # Build agents dictionary
     agents_dict = {}
     extra_info_dict = {}
 
-    if load_from_storage:
-        for doc in enumerate(docs):
+    if not load_from_storage:
+        for doc in docs:
             nodes = node_parser.get_nodes_from_documents([doc])
 
             # ID will be base + parent
@@ -139,15 +179,17 @@ def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
         )
 
     # define query engines
-    vector_query_engine = vector_index.as_query_engine()
+    vector_query_engine = vector_index.as_query_engine(llm=Settings.llm)
     summary_query_engine = summary_index.as_query_engine(
-        response_mode="tree_summarize"
+        response_mode="tree_summarize",
+        llm=Settings.llm,
+        use_async=False
     )
 
     # extract a summary
     if not load_from_storage:
         Path(summary_out_file).parent.mkdir(parents=True, exist_ok=True)
-        summary = str(asyncio.run(summary_query_engine.aquery("Extract a concise 1-2 line summary of this document")))
+        summary = str(summary_query_engine.query("Extract a concise 1-2 line summary of this document"))
         pickle.dump(summary, open(summary_out_file, "wb"))
     else:
         summary = pickle.load(open(summary_out_file, "rb"))
