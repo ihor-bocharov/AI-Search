@@ -70,8 +70,8 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         custom_node_retriever, tool_mapping, all_tools, llm=Settings.llm
     )
 
-    tmps = custom_obj_retriever.retrieve("hello")
-    print(len(tmps))
+    #tmps = custom_obj_retriever.retrieve("hello")
+    #print(len(tmps))
     top_agent = ReActAgent.from_tools(
         tool_retriever=custom_obj_retriever,
         system_prompt=""" \
@@ -83,12 +83,14 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         verbose=True,
     )
 
-    response = top_agent.query(
-        "Tell me about LlamaIndex connectors"
-    )
-    print("Q: Tell me about LlamaIndex connectors")
-
-    print(f"A: {response}")
+    print("==================================================", end='\n')
+    print("Agentic RAG started", end="\n\n")
+          
+    for question in questions:
+        print("--------------------------------------------------", end="\n\n")
+        print("Q : " + question, end='\n')
+        response = top_agent.query(question)
+        print("A : " + str(response), end='\n')
 
 def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     UnstructuredReader = download_loader('UnstructuredReader')
@@ -195,7 +197,8 @@ def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
         summary = pickle.load(open(summary_out_file, "rb"))
 
     agent = build_agent(vector_query_engine, summary_query_engine, file_key)
-    print("Summary : " + summary)
+    print("Summary : " + summary, end='\n\n')
+
     return agent, summary
 
 def build_agent(vector_query_engine, summary_query_engine, file_key: str):

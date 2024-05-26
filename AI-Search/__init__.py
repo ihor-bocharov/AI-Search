@@ -29,8 +29,8 @@ def main():
     #llama_index.core.set_global_handler("simple")
 
     # Tracing
-    #llama_debug = LlamaDebugHandler(print_trace_on_end=True)
-    #Settings.callback_manager = CallbackManager([llama_debug])
+    llama_debug = LlamaDebugHandler(print_trace_on_end=True)
+    Settings.callback_manager = CallbackManager([llama_debug])
 
     #Settings.llm = OpenAI(temperature=0.0, model="gpt-4")
     Settings.llm = OpenAI(temperature=0.0, model="gpt-3.5-turbo")
@@ -48,7 +48,14 @@ def main():
     #run_basic_semantic_vector_pipeline(questions, load_from_storage=True)
     #run_graph_pipeline(questions, load_from_storage=True)
     #run_metadata_pipeline()
-    run_agentic_pipeline(questions, load_from_storage=False)
+
+    # Agentic RAG
+    questions = [
+        "Tell me about LlamaIndex connectors",
+        "From the documentation what is the best way to get started with LlamaIndex?",
+        "What is pinecone?"
+        ] 
+    run_agentic_pipeline(questions, load_from_storage=True)
     
 if __name__ == "__main__":
     main()
