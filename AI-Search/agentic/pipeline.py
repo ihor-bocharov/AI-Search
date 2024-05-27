@@ -4,6 +4,7 @@ import pickle
 from typing import List
 import nest_asyncio
 import helpers.file_helper as file_helper
+import helpers.display_helper as display_helper
 from  .extensions import CustomRetriever, CustomObjectRetriever
 
 from llama_hub.file.unstructured.base import UnstructuredReader
@@ -24,15 +25,22 @@ from llama_index.core.objects import (
     SimpleToolNodeMapping,
 )
 from llama_index.core.agent import ReActAgent
+from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator, DatasetGenerator
 
 # Settings
 doc_limit = 1314
 file_list_name = "files.txt"
+file_questions_name = "Questions.txt"
+
 source_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\docs.llamaindex.ai"
 base_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai"
+basic_vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\basic-vector-index"
 vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\vector-index"
 summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
 summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
+
+faithfulness_evaluator = FaithfulnessEvaluator(llm=Settings.llm)
+relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
 
 def run_pipeline(questions: list[str], load_from_storage: bool):
     nest_asyncio.apply()
@@ -70,8 +78,6 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         custom_node_retriever, tool_mapping, all_tools, llm=Settings.llm
     )
 
-    #tmps = custom_obj_retriever.retrieve("hello")
-    #print(len(tmps))
     top_agent = ReActAgent.from_tools(
         tool_retriever=custom_obj_retriever,
         system_prompt=""" \
@@ -85,12 +91,64 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
 
     print("==================================================", end='\n')
     print("Agentic RAG started", end="\n\n")
-          
+
+    agentic_faithfulness_list = []
+    agentic_relevancy_list = []
     for question in questions:
         print("--------------------------------------------------", end="\n\n")
         print("Q : " + question, end='\n')
         response = top_agent.query(question)
         print("A : " + str(response), end='\n')
+
+        print()
+        print("*** Response Evaluation ***", end='\n')
+        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        agentic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
+        #display_helper.display_evaluation_result(faithfulness_eval_result, "Faithfulness")
+        print()
+
+        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        agentic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+        #display_helper.display_evaluation_result(relevancy_eval_result, "Relevancy")
+
+    # Basic RAG
+    if load_from_storage:
+        basic_vector_index = load_index_from_storage(
+            StorageContext.from_defaults(persist_dir=basic_vector_index_store_path),
+            service_context=Settings.service_context
+        )
+        basic_query_engine = basic_vector_index.as_query_engine(similarity_top_k=4)
+
+        print("==================================================", end='\n')
+        print("Basic RAG started", end="\n\n")
+            
+        basic_faithfulness_list = []
+        basic_relevancy_list = []
+        for question in questions:
+            print("--------------------------------------------------", end="\n\n")
+            print("Q : " + question, end='\n')
+            response = basic_query_engine.query(question)
+            print("A : " + str(response), end='\n')
+
+            print()
+            print("*** Response Evaluation ***", end='\n')
+            faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+            basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
+            #display_helper.display_evaluation_result(faithfulness_eval_result, "Faithfulness")
+            print()
+
+            relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+            basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+            #display_helper.display_evaluation_result(relevancy_eval_result, "Relevancy")
+
+    score = display_helper.calculate_results_score(agentic_faithfulness_list)
+    print(f'Agentic Faithfulness score: {score:.4f}')
+    score = display_helper.calculate_results_score(agentic_relevancy_list)
+    print(f'Agentic Relevance score: {score:.4f}')
+    score = display_helper.calculate_results_score(basic_faithfulness_list)
+    print(f'Basic Faithfulness score: {score:.4f}')
+    score = display_helper.calculate_results_score(basic_relevancy_list)
+    print(f'Basic Relevance score: {score:.4f}')
 
 def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     UnstructuredReader = download_loader('UnstructuredReader')
@@ -197,7 +255,7 @@ def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
         summary = pickle.load(open(summary_out_file, "rb"))
 
     agent = build_agent(vector_query_engine, summary_query_engine, file_key)
-    print("Summary : " + summary, end='\n\n')
+    #print("Summary : " + summary, end='\n\n')
 
     return agent, summary
 
@@ -235,3 +293,22 @@ You must ALWAYS use at least one of the tools provided when answering a question
 
 def create_doc_key(file_path:str):
     return str(file_path.parent.stem) + "_" + str(file_path.stem)
+
+def generate_questions():
+    documents = load_documents_from_source(source_data_dir, doc_limit)
+    
+    # Basic
+    index = VectorStoreIndex.from_documents(documents, callback_manager=Settings.callback_manager)
+
+    # Store index
+    index.storage_context.persist(basic_vector_index_store_path)
+    
+    # Generate questions
+    data_generator = DatasetGenerator.from_documents(documents=documents, llm=Settings.llm, callback_manager=Settings.callback_manager)
+    eval_questions = data_generator.generate_questions_from_nodes(100)
+    full_file_name = os.path.join(base_store_path, file_questions_name)
+    with open(full_file_name, 'w') as f:
+        for q in eval_questions:
+            f.write(q + "\n")
+
+    

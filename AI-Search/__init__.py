@@ -3,6 +3,7 @@ from basic_semantic_vector.pipeline import run_pipeline as run_basic_semantic_ve
 from knowledge_graph.pipeline import run_pipeline as run_graph_pipeline
 from metadata_filtering.pipeline import run_pipeline as run_metadata_pipeline
 from agentic.pipeline import run_pipeline as run_agentic_pipeline
+from agentic.pipeline import generate_questions as generate_agentic_questions
 
 from dotenv import load_dotenv
 import logging
@@ -11,7 +12,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core import Settings, ServiceContext
 import llama_index.core
 from llama_index.core.callbacks import CallbackManager, LlamaDebugHandler
-import asyncio
+import helpers.file_helper as file_helper
 
 def main():
 
@@ -29,11 +30,11 @@ def main():
     #llama_index.core.set_global_handler("simple")
 
     # Tracing
-    llama_debug = LlamaDebugHandler(print_trace_on_end=True)
-    Settings.callback_manager = CallbackManager([llama_debug])
+    #llama_debug = LlamaDebugHandler(print_trace_on_end=True)
+    #Settings.callback_manager = CallbackManager([llama_debug])
 
-    #Settings.llm = OpenAI(temperature=0.0, model="gpt-4")
-    Settings.llm = OpenAI(temperature=0.0, model="gpt-3.5-turbo")
+    Settings.llm = OpenAI(temperature=0.0, model="gpt-4-turbo")
+    #Settings.llm = OpenAI(temperature=0.0, model="gpt-3.5-turbo")
     Settings.service_context = ServiceContext.from_defaults(llm=Settings.llm)
 
     Settings.chunk_size = 512
@@ -50,11 +51,17 @@ def main():
     #run_metadata_pipeline()
 
     # Agentic RAG
-    questions = [
-        "Tell me about LlamaIndex connectors",
-        "From the documentation what is the best way to get started with LlamaIndex?",
-        "What is pinecone?"
-        ] 
+    questions_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\questions"
+    file_questions_name = "scenario-based.txt"
+    questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
+    #questions = [
+        #"How does llamaindex.io compare to Elasticsearch?",
+        #"What are the main components of llamaindex.io?"
+        #"Tell me about LlamaIndex connectors",
+        #"From the documentation what is the best way to get started with LlamaIndex?",
+        #"What is pinecone?"
+        #]
+    #generate_agentic_questions()
     run_agentic_pipeline(questions, load_from_storage=True)
     
 if __name__ == "__main__":
