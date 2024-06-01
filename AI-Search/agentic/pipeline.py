@@ -6,8 +6,6 @@ import nest_asyncio
 import helpers.file_helper as file_helper
 import helpers.display_helper as display_helper
 from  .extensions import CustomRetriever, CustomObjectRetriever
-
-from llama_hub.file.unstructured.base import UnstructuredReader
 from llama_index.agent.openai import OpenAIAgent
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
@@ -45,13 +43,12 @@ relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
 def run_pipeline(questions: list[str], load_from_storage: bool):
     nest_asyncio.apply()
 
+    documents  = []
     if not load_from_storage:
         file_helper.remove_directory_tree(base_store_path)
-        docs = load_documents_from_source(source_data_dir, doc_limit)
-    else:
-        docs = []
+        documents = load_documents_from_source(source_data_dir, doc_limit)
 
-    agents_dict, extra_info_dict = build_agents(docs, load_from_storage)
+    agents_dict, extra_info_dict = build_agents(documents, load_from_storage)
 
     # define tool for each document agent
     all_tools = []
@@ -104,12 +101,9 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         print("*** Response Evaluation ***", end='\n')
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
         agentic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
-        #display_helper.display_evaluation_result(faithfulness_eval_result, "Faithfulness")
-        print()
 
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         agentic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
-        #display_helper.display_evaluation_result(relevancy_eval_result, "Relevancy")
 
     # Basic RAG
     if load_from_storage:
@@ -117,30 +111,33 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
             StorageContext.from_defaults(persist_dir=basic_vector_index_store_path),
             service_context=Settings.service_context
         )
-        basic_query_engine = basic_vector_index.as_query_engine(similarity_top_k=4)
+    else:
+        basic_vector_index = VectorStoreIndex.from_documents(documents, callback_manager=Settings.callback_manager)
+        basic_vector_index.storage_context.persist(basic_vector_index_store_path)
 
-        print("==================================================", end='\n')
-        print("Basic RAG started", end="\n\n")
-            
-        basic_faithfulness_list = []
-        basic_relevancy_list = []
-        for question in questions:
-            print("--------------------------------------------------", end="\n\n")
-            print("Q : " + question, end='\n')
-            response = basic_query_engine.query(question)
-            print("A : " + str(response), end='\n')
+    basic_query_engine = basic_vector_index.as_query_engine(similarity_top_k=4)
 
-            print()
-            print("*** Response Evaluation ***", end='\n')
-            faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
-            basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
-            #display_helper.display_evaluation_result(faithfulness_eval_result, "Faithfulness")
-            print()
+    print("==================================================", end='\n')
+    print("Basic RAG started", end="\n\n")
+        
+    basic_faithfulness_list = []
+    basic_relevancy_list = []
+    for question in questions:
+        print("--------------------------------------------------", end="\n\n")
+        print("Q : " + question, end='\n')
+        response = basic_query_engine.query(question)
+        print("A : " + str(response), end='\n')
 
-            relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
-            basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
-            #display_helper.display_evaluation_result(relevancy_eval_result, "Relevancy")
+        print()
+        print("*** Response Evaluation ***", end='\n')
+        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
 
+        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+
+    print("==================================================", end='\n')
+    print("Scores :", end="\n\n")
     score = display_helper.calculate_results_score(agentic_faithfulness_list)
     print(f'Agentic Faithfulness score: {score:.4f}')
     score = display_helper.calculate_results_score(agentic_relevancy_list)
