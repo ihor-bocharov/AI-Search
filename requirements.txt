@@ -11,3 +11,4 @@ python-dotenv
 unstructured
 cohere
 llama-index-postprocessor-cohere-rerank
+pip-review

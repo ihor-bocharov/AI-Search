@@ -24,22 +24,25 @@ from llama_index.core import VectorStoreIndex
 from llama_index.core.query_engine import SubQuestionQueryEngine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 
+llm_model = "gpt-4-turbo"
+llm_question = "gpt-3.5-turbo-0125"
+
 def run_pipeline():
     nest_asyncio.apply()
 
     uber_data = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\metadata\\10k-132.pdf"
     lift_data = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\data\\metadata\\10k-vFinal.pdf"
 
-    llm = OpenAI(temperature=0.1, model="gpt-3.5-turbo", max_tokens=512)
+    llm = OpenAI(temperature=0.1, model=llm_question, max_tokens=512)
     text_splitter = TokenTextSplitter(
         separator=" ", chunk_size=512, chunk_overlap=128
     )
     extractors = [
         TitleExtractor(nodes=5, llm=llm),
-        QuestionsAnsweredExtractor(questions=3, llm=llm),
+        QuestionsAnsweredExtractor(questions=1, llm=llm),
         EntityExtractor(prediction_threshold=0.5),
         SummaryExtractor(summaries=["prev", "self"], llm=llm),
-        KeywordExtractor(keywords=10, llm=llm),
+        KeywordExtractor(keywords=5, llm=llm),
         # CustomExtractor()
     ]
 
@@ -90,7 +93,7 @@ def run_pipeline():
         nodes=nodes_no_metadata,
     )
     engine_no_metadata = index_no_metadata.as_query_engine(
-        similarity_top_k=10, llm=OpenAI(model="gpt-3.5-turbo")
+        similarity_top_k=10, llm=OpenAI(model=llm_question)
     )
 
     final_engine_no_metadata = SubQuestionQueryEngine.from_defaults(
@@ -109,11 +112,12 @@ def run_pipeline():
 
     response_no_metadata = final_engine_no_metadata.query(
         """
-        What was the cost due to research and development v.s. sales and marketing for uber and lyft in 2019 in millions of USD?
-        Give your answer as a JSON.
+        #What was the cost due to research and development v.s. sales and marketing for uber and lyft in 2019 in millions of USD?
+        #Give your answer as a JSON.
         """
     )
     print(response_no_metadata.response)
+
 
     # Querying an Index With Extracted Metadata
     print(
@@ -124,7 +128,7 @@ def run_pipeline():
     index = VectorStoreIndex(
         nodes=uber_nodes + lyft_nodes,
     )
-    engine = index.as_query_engine(similarity_top_k=10, llm=OpenAI(model="gpt-3.5-turbo"))
+    engine = index.as_query_engine(similarity_top_k=10, llm=OpenAI(model=llm_model))
 
 
     final_engine = SubQuestionQueryEngine.from_defaults(

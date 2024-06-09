@@ -7,7 +7,6 @@ import helpers.file_helper as file_helper
 import helpers.display_helper as display_helper
 from  .extensions import CustomRetriever, CustomObjectRetriever
 from llama_index.agent.openai import OpenAIAgent
-from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core import (
     Settings,
@@ -24,9 +23,14 @@ from llama_index.core.objects import (
 )
 from llama_index.core.agent import ReActAgent
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator, DatasetGenerator
+from llama_index.core.node_parser import (
+    SentenceSplitter,
+    SemanticSplitterNodeParser,
+)
+from llama_index.embeddings.openai import OpenAIEmbedding
 
 # Settings
-doc_limit = 1314
+doc_limit = 10
 file_list_name = "files.txt"
 file_questions_name = "Questions.txt"
 
@@ -40,7 +44,7 @@ summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\A
 faithfulness_evaluator = FaithfulnessEvaluator(llm=Settings.llm)
 relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
 
-def run_pipeline(questions: list[str], load_from_storage: bool):
+def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
     nest_asyncio.apply()
 
     documents  = []
@@ -48,7 +52,7 @@ def run_pipeline(questions: list[str], load_from_storage: bool):
         file_helper.remove_directory_tree(base_store_path)
         documents = load_documents_from_source(source_data_dir, doc_limit)
 
-    agents_dict, extra_info_dict = build_agents(documents, load_from_storage)
+    agents_dict, extra_info_dict = build_agents(documents, load_from_storage, token_counter)
 
     # define tool for each document agent
     all_tools = []
@@ -181,7 +185,8 @@ def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
 
     return docs
 
-def build_agents(docs: List[Document], load_from_storage: bool):
+def build_agents(docs: List[Document], load_from_storage: bool, token_counter):
+    # Sentence Splitter
     node_parser = SentenceSplitter()
 
     # Build agents dictionary
@@ -194,21 +199,21 @@ def build_agents(docs: List[Document], load_from_storage: bool):
 
             # ID will be base + parent
             file_key = create_doc_key(Path(doc.metadata["path"]))
-            agent, summary = create_agent_per_doc(nodes, file_key, load_from_storage)
+            agent, summary = create_agent_per_doc(nodes, file_key, load_from_storage, token_counter)
 
             agents_dict[file_key] = agent
             extra_info_dict[file_key] = {"summary": summary, "nodes": nodes}
     else:
         file_keys = file_helper.load_list_from_file(base_store_path, file_list_name)
         for file_key in file_keys:
-            agent, summary = create_agent_per_doc([], file_key, load_from_storage)
+            agent, summary = create_agent_per_doc([], file_key, load_from_storage, token_counter)
 
             agents_dict[file_key] = agent
             extra_info_dict[file_key] = {"summary": summary, "nodes": []}
 
     return agents_dict, extra_info_dict
 
-def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
+def create_agent_per_doc(nodes, file_key, load_from_storage: bool, token_counter):
     print("File key : " + file_key)
     
     vector_index_out_path = os.path.join(vector_index_store_path, file_key)
@@ -253,6 +258,21 @@ def create_agent_per_doc(nodes, file_key, load_from_storage: bool):
 
     agent = build_agent(vector_query_engine, summary_query_engine, file_key)
     #print("Summary : " + summary, end='\n\n')
+
+    print(
+        "Embedding Tokens: ",
+        token_counter.total_embedding_token_count,
+        "\n",
+        "LLM Prompt Tokens: ",
+        token_counter.prompt_llm_token_count,
+        "\n",
+        "LLM Completion Tokens: ",
+        token_counter.completion_llm_token_count,
+        "\n",
+        "Total LLM Token Count: ",
+        token_counter.total_llm_token_count,
+        "\n",
+    )
 
     return agent, summary
 
