@@ -56,27 +56,19 @@ def main():
     Settings.context_window = 4096
     Settings.num_output = 256
 
-    #questions = ["Who is John McCarthy?", "Who is Sam Altman?"]
-    questions = ["What is the User-Agent?"]
-
-    #run_basic_vector_pipeline(questions, load_from_storage=False)
-    #run_basic_semantic_vector_pipeline(questions, load_from_storage=True)
-    #run_graph_pipeline(questions, load_from_storage=True)
-    run_metadata_pipeline()
-
     # Agentic RAG
     questions_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\questions"
     file_questions_name = "scenario-based.txt"
-    #questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
-    questions = [
+    questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
+    #questions = [
         #"How does llamaindex.io compare to Elasticsearch?",
         #"What are the main components of llamaindex.io?"
         #"Tell me about LlamaIndex connectors",
-        "From the documentation what is the best way to get started with LlamaIndex?",
+        #"From the documentation what is the best way to get started with LlamaIndex?",
         #"What is pinecone?"
-        ]
+        #]
     #generate_agentic_questions()
-    #run_agentic_pipeline(questions, False, token_counter)
+    run_agentic_pipeline(questions, True, token_counter)
     
 if __name__ == "__main__":
     main()

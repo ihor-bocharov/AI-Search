@@ -24,10 +24,8 @@ from llama_index.core.objects import (
 from llama_index.core.agent import ReActAgent
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator, DatasetGenerator
 from llama_index.core.node_parser import (
-    SentenceSplitter,
-    SemanticSplitterNodeParser,
+    SentenceSplitter
 )
-from llama_index.embeddings.openai import OpenAIEmbedding
 
 # Settings
 doc_limit = 10
