@@ -1,4 +1,5 @@
 import os
+import logging
 from pathlib import Path
 import pickle
 from typing import List
@@ -7,6 +8,7 @@ import helpers.file_helper as file_helper
 import helpers.display_helper as display_helper
 from  .extensions import CustomRetriever, CustomObjectRetriever
 from llama_index.agent.openai import OpenAIAgent
+from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core import (
     Settings,
@@ -23,9 +25,7 @@ from llama_index.core.objects import (
 )
 from llama_index.core.agent import ReActAgent
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator, DatasetGenerator
-from llama_index.core.node_parser import (
-    SentenceSplitter
-)
+from llama_index.core.node_parser import SentenceSplitter
 
 # Settings
 doc_limit = 10
@@ -39,8 +39,12 @@ vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Sea
 summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
 summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
 
-faithfulness_evaluator = FaithfulnessEvaluator(llm=Settings.llm)
-relevancy_evaluator = RelevancyEvaluator(llm=Settings.llm)
+#evaluation_model = "gpt-4o"
+evaluation_model = "gpt-3.5-turbo"
+evaluation_llm = OpenAI(temperature=0.0, model=evaluation_model)
+
+faithfulness_evaluator = FaithfulnessEvaluator(llm=evaluation_llm)
+relevancy_evaluator = RelevancyEvaluator(llm=evaluation_llm)
 
 def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
     nest_asyncio.apply()
@@ -88,24 +92,34 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         verbose=True,
     )
 
-    print("==================================================", end='\n')
-    print("Agentic RAG started", end="\n\n")
+    print("|Agentic RAG started")
+    logging.info("|Agentic RAG started")
 
     agentic_faithfulness_list = []
     agentic_relevancy_list = []
     for question in questions:
-        print("--------------------------------------------------", end="\n\n")
-        print("Q : " + question, end='\n')
-        response = top_agent.query(question)
-        print("A : " + str(response), end='\n')
+        q = "|Q : " + question
+        print(q)
+        logging.info(q)
 
-        print()
-        print("*** Response Evaluation ***", end='\n')
+        response = top_agent.query(question)
+
+        answer = "|A : " + str(response)
+        print(answer)
+        logging.info(answer)
+
+        print("|Faithfulness Evaluation")
+        logging.info("|Faithfulness Evaluation")
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
         agentic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
 
+        print("|Relevancy Evaluation")
+        logging.info("|Relevancy Evaluation")
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         agentic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+
+        print("|End Evaluation")
+        logging.info("|End Evaluation")
 
     # Basic RAG
     if load_from_storage:
@@ -119,24 +133,33 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
 
     basic_query_engine = basic_vector_index.as_query_engine(similarity_top_k=4)
 
-    print("==================================================", end='\n')
-    print("Basic RAG started", end="\n\n")
-        
+    print("||Basic RAG started")
+    logging.info("||Basic RAG started")
+
     basic_faithfulness_list = []
     basic_relevancy_list = []
     for question in questions:
-        print("--------------------------------------------------", end="\n\n")
-        print("Q : " + question, end='\n')
-        response = basic_query_engine.query(question)
-        print("A : " + str(response), end='\n')
+        q = "||Q : " + question
+        print(q)
+        logging.info(q)
 
-        print()
-        print("*** Response Evaluation ***", end='\n')
+        response = basic_query_engine.query(question)
+
+        answer = "||A : " + str(response)
+        print(answer)
+        logging.info(answer)
+
+        print("||Faithfulness Evaluation")
+        logging.info("||Faithfulness Evaluation")
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
         basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
 
+        print("||Relevancy Evaluation")
+        logging.info("||Relevancy Evaluation")
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+        print("||End Evaluation")
+        logging.info("||End Evaluation")
 
     print("==================================================", end='\n')
     print("Scores :", end="\n\n")
@@ -156,8 +179,8 @@ def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     all_files_gen = Path(data_dir).rglob("*")
     all_files = [f.resolve() for f in all_files_gen]
     all_html_files = [f for f in all_files if f.suffix.lower() == ".html"]
-    print("==================================================", end='\n')
-    print("Loaded " + str(len(all_html_files)) + " files", end='\n')
+    print("==================================================")
+    print("Loaded " + str(len(all_html_files)) + " files")
 
     docs = []
     files = []
@@ -192,6 +215,9 @@ def build_agents(docs: List[Document], load_from_storage: bool, token_counter):
     extra_info_dict = {}
 
     if not load_from_storage:
+        print("Start index creating")
+        logging.info("Start index creating")
+    
         for doc in docs:
             nodes = node_parser.get_nodes_from_documents([doc])
 
@@ -201,7 +227,12 @@ def build_agents(docs: List[Document], load_from_storage: bool, token_counter):
 
             agents_dict[file_key] = agent
             extra_info_dict[file_key] = {"summary": summary, "nodes": nodes}
+
+        print("End index creating")
+        logging.info("End index creating")
     else:
+        print("Start index loading")
+        logging.info("Start index loading")
         file_keys = file_helper.load_list_from_file(base_store_path, file_list_name)
         for file_key in file_keys:
             agent, summary = create_agent_per_doc([], file_key, load_from_storage, token_counter)
@@ -209,6 +240,8 @@ def build_agents(docs: List[Document], load_from_storage: bool, token_counter):
             agents_dict[file_key] = agent
             extra_info_dict[file_key] = {"summary": summary, "nodes": []}
 
+        print("End index loading")
+        logging.info("End index loading")
     return agents_dict, extra_info_dict
 
 def create_agent_per_doc(nodes, file_key, load_from_storage: bool, token_counter):
@@ -256,21 +289,6 @@ def create_agent_per_doc(nodes, file_key, load_from_storage: bool, token_counter
 
     agent = build_agent(vector_query_engine, summary_query_engine, file_key)
     #print("Summary : " + summary, end='\n\n')
-
-    print(
-        "Embedding Tokens: ",
-        token_counter.total_embedding_token_count,
-        "\n",
-        "LLM Prompt Tokens: ",
-        token_counter.prompt_llm_token_count,
-        "\n",
-        "LLM Completion Tokens: ",
-        token_counter.completion_llm_token_count,
-        "\n",
-        "Total LLM Token Count: ",
-        token_counter.total_llm_token_count,
-        "\n",
-    )
 
     return agent, summary
 
