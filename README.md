@@ -1,3 +1,3 @@
 # AI-Search
 
-PoC devoted to enhancing the Basic RAG colution.
+PoC devoted to enhancing the Basic RAG solution.
