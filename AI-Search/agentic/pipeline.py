@@ -39,8 +39,8 @@ vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Sea
 summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
 summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
 
-evaluation_model = "gpt-4-turbo"
-#evaluation_model = "gpt-3.5-turbo"
+#evaluation_model = "gpt-4-turbo"
+evaluation_model = "gpt-3.5-turbo"
 
 evaluation_llm = OpenAI(temperature=0.0, model=evaluation_model)
 
@@ -118,11 +118,13 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         logging.info("|Faithfulness Evaluation")
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
         agentic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
+        display_helper.display_evaluation_result(faithfulness_eval_result)
 
         print("|Relevancy Evaluation")
         logging.info("|Relevancy Evaluation")
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         agentic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+        display_helper.display_evaluation_result(relevancy_eval_result)
 
         print("|End Evaluation")
         logging.info("|End Evaluation")
@@ -164,11 +166,14 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         logging.info("||Faithfulness Evaluation")
         faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
         basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
+        display_helper.display_evaluation_result(faithfulness_eval_result)
 
         print("||Relevancy Evaluation")
         logging.info("||Relevancy Evaluation")
         relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
         basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+        display_helper.display_evaluation_result(relevancy_eval_result)
+        
         print("||End Evaluation")
         logging.info("||End Evaluation")
 

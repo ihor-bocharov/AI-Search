@@ -162,4 +162,4 @@ cython_debug/
 /persistent/**/*
 !/persistent/docs.llamaindex.ai/questions/
 /data/docs.llamaindex.ai
-/logs
+/logs/*_console.txt
