@@ -1,5 +1,4 @@
 from agentic.pipeline import run_pipeline as run_agentic_pipeline
-from agentic.pipeline import generate_questions as generate_agentic_questions
 
 from dotenv import load_dotenv
 import sys, os, logging, datetime
@@ -35,8 +34,7 @@ def main():
     logger.addHandler(file_handler)
 
     model = "gpt-3.5-turbo"
-    #model="gpt-4-turbo"
-    #model="gpt-4-0125-preview"
+    #model="gpt-4o"
 
     token_counter = TokenCountingHandler(
         tokenizer=tiktoken.encoding_for_model(model).encode
@@ -59,16 +57,20 @@ def main():
 
     # Agentic RAG
     questions_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\questions"
-    file_questions_name = "scenario-based.txt"
-    #questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
-    questions = [
+    #file_questions_name = "scenario-based.txt"
+    #file_questions_name = "take_2_from_all_categories.txt"
+    file_questions_name = "take_1_from_all_categories.txt"
+    questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
+    #questions = [
         #"How does llamaindex.io compare to Elasticsearch?",
-        "What are the main components of llamaindex.io?"
+        #"What are the main components of llamaindex.io?"
         #"Tell me about LlamaIndex connectors",
         #"From the documentation what is the best way to get started with LlamaIndex?",
         #"What is pinecone?"
-        ]
-    #generate_agentic_questions()
+        #]
+
+    logging.info("Questions : " + file_questions_name)
+    logging.info("Generation Model : " + model)
     run_agentic_pipeline(questions, True, token_counter)
 
     sys.stdout.close()

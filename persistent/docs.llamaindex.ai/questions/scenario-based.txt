@@ -1,0 +1,10 @@
+How would you set up a real-time data indexing pipeline in llamaindex.io?
+Describe a use case where llamaindex.io would be the ideal solution.
+How would you migrate an existing indexing system to llamaindex.io?
+What steps would you take to optimize query performance in llamaindex.io?
+How would you handle data redundancy and backup in llamaindex.io?
+Describe a scenario where llamaindex.io's scalability is critical.
+How would you integrate llamaindex.io with a machine learning pipeline?
+What considerations would you have when securing data in llamaindex.io?
+How would you troubleshoot performance issues in llamaindex.io?
+Describe the process of updating an index in llamaindex.io.

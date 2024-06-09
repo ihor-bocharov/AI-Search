@@ -1,0 +1,10 @@
+What programming languages are supported by llamaindex.io for API integration?
+How does llamaindex.io manage index partitions?
+Explain the role of metadata in llamaindex.io.
+How are search queries optimized in llamaindex.io?
+What is the process of sharding in llamaindex.io?
+How does llamaindex.io handle index replication?
+Describe the query syntax used in llamaindex.io.
+How does llamaindex.io implement fault tolerance?
+What indexing algorithms are used in llamaindex.io?
+How does llamaindex.io support complex query operations?

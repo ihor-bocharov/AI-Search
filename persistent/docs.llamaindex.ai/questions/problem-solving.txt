@@ -1,0 +1,10 @@
+How would you resolve data consistency issues in llamaindex.io?
+What steps would you take to optimize storage in llamaindex.io?
+How would you implement a custom indexing strategy in llamaindex.io?
+Describe how you would handle high query load in llamaindex.io.
+What measures would you take to ensure data privacy in llamaindex.io?
+How would you implement disaster recovery for llamaindex.io?
+What would you do to improve the indexing speed in llamaindex.io?
+How would you handle indexing of dynamic data in llamaindex.io?
+Describe the process of integrating llamaindex.io with a third-party application.
+How would you manage version control in llamaindex.io?

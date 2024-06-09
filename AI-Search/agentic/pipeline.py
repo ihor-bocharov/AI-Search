@@ -39,8 +39,9 @@ vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Sea
 summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
 summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
 
-#evaluation_model = "gpt-4o"
-evaluation_model = "gpt-3.5-turbo"
+evaluation_model = "gpt-4-turbo"
+#evaluation_model = "gpt-3.5-turbo"
+
 evaluation_llm = OpenAI(temperature=0.0, model=evaluation_model)
 
 faithfulness_evaluator = FaithfulnessEvaluator(llm=evaluation_llm)
@@ -48,6 +49,8 @@ relevancy_evaluator = RelevancyEvaluator(llm=evaluation_llm)
 
 def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
     nest_asyncio.apply()
+
+    logging.info("Evaluation Model : " + evaluation_model)
 
     documents  = []
     if not load_from_storage:
@@ -91,13 +94,16 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         llm= Settings.llm,
         verbose=True,
     )
-
+    print("|============================================================")
     print("|Agentic RAG started")
+    logging.info("|============================================================")
     logging.info("|Agentic RAG started")
 
     agentic_faithfulness_list = []
     agentic_relevancy_list = []
     for question in questions:
+        print("|------------------------------------------------------------")
+        logging.info("|------------------------------------------------------------")
         q = "|Q : " + question
         print(q)
         logging.info(q)
@@ -133,12 +139,17 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
 
     basic_query_engine = basic_vector_index.as_query_engine(similarity_top_k=4)
 
+    print("||============================================================")
     print("||Basic RAG started")
+    logging.info("||============================================================")
     logging.info("||Basic RAG started")
 
     basic_faithfulness_list = []
     basic_relevancy_list = []
     for question in questions:
+        print("||------------------------------------------------------------")
+        logging.info("||------------------------------------------------------------")
+    
         q = "||Q : " + question
         print(q)
         logging.info(q)
@@ -161,16 +172,28 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         print("||End Evaluation")
         logging.info("||End Evaluation")
 
-    print("==================================================", end='\n')
-    print("Scores :", end="\n\n")
+    print("============================================================")
+    logging.info("============================================================")
+
     score = display_helper.calculate_results_score(agentic_faithfulness_list)
-    print(f'Agentic Faithfulness score: {score:.4f}')
+    score_message = f'Agentic Faithfulness score: {score:.4f}'
+    print(score_message)
+    logging.info(score_message)
+
     score = display_helper.calculate_results_score(agentic_relevancy_list)
-    print(f'Agentic Relevance score: {score:.4f}')
+    score_message = f'Agentic Relevance score: {score:.4f}'
+    print(score_message)
+    logging.info(score_message)
+
     score = display_helper.calculate_results_score(basic_faithfulness_list)
-    print(f'Basic Faithfulness score: {score:.4f}')
+    score_message = f'Basic Faithfulness score: {score:.4f}'
+    print(score_message)
+    logging.info(score_message)
+
     score = display_helper.calculate_results_score(basic_relevancy_list)
-    print(f'Basic Relevance score: {score:.4f}')
+    score_message = f'Basic Relevance score: {score:.4f}'
+    print(score_message)
+    logging.info(score_message)
 
 def load_documents_from_source(data_dir: str, doc_limit: int) -> List[Document]:
     UnstructuredReader = download_loader('UnstructuredReader')
@@ -327,7 +350,7 @@ You must ALWAYS use at least one of the tools provided when answering a question
 def create_doc_key(file_path:str):
     return str(file_path.parent.stem) + "_" + str(file_path.stem)
 
-def generate_questions():
+def create_basic_index():
     documents = load_documents_from_source(source_data_dir, doc_limit)
     
     # Basic
@@ -335,13 +358,5 @@ def generate_questions():
 
     # Store index
     index.storage_context.persist(basic_vector_index_store_path)
-    
-    # Generate questions
-    data_generator = DatasetGenerator.from_documents(documents=documents, llm=Settings.llm, callback_manager=Settings.callback_manager)
-    eval_questions = data_generator.generate_questions_from_nodes(100)
-    full_file_name = os.path.join(base_store_path, file_questions_name)
-    with open(full_file_name, 'w') as f:
-        for q in eval_questions:
-            f.write(q + "\n")
 
     

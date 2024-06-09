@@ -1,0 +1,10 @@
+What is the concept behind real-time indexing in llamaindex.io?
+How does llamaindex.io handle data compression?
+What is the importance of schema flexibility in llamaindex.io?
+How does llamaindex.io support distributed computing?
+What is the role of machine learning in llamaindex.io?
+How does llamaindex.io ensure high availability?
+What are the principles of data sharding in llamaindex.io?
+How does llamaindex.io manage data versioning?
+What is the significance of metadata indexing in llamaindex.io?
+How does llamaindex.io support multi-tenancy?
