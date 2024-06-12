@@ -41,3 +41,10 @@ def calculate_results_score(results) -> float:
             total_correct += 1
 
     return total_correct / len(results)
+
+def calculate_results_deep_score(results) -> float:
+    total_score = 0.0
+    for r in results:
+        total_score += r["eval_result"].score
+
+    return total_score / len(results)

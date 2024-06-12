@@ -1,9 +1,6 @@
-import os
-import logging
+import os, logging, time, pickle, nest_asyncio
 from pathlib import Path
-import pickle
 from typing import List
-import nest_asyncio
 import helpers.file_helper as file_helper
 import helpers.display_helper as display_helper
 from  .extensions import CustomRetriever, CustomObjectRetriever
@@ -26,6 +23,7 @@ from llama_index.core.objects import (
 from llama_index.core.agent import ReActAgent
 from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator, DatasetGenerator
 from llama_index.core.node_parser import SentenceSplitter
+from deepeval.integrations.llama_index import DeepEvalContextualRelevancyEvaluator, DeepEvalFaithfulnessEvaluator
 
 # Settings
 doc_limit = 10
@@ -39,13 +37,15 @@ vector_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Sea
 summary_index_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-index"
 summary_extracted_store_path = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\summary-extracted"
 
-#evaluation_model = "gpt-4-turbo"
+#evaluation_model = "gpt-4o"
 evaluation_model = "gpt-3.5-turbo"
 
 evaluation_llm = OpenAI(temperature=0.0, model=evaluation_model)
 
 faithfulness_evaluator = FaithfulnessEvaluator(llm=evaluation_llm)
+deep_faithfulness_evaluator = DeepEvalFaithfulnessEvaluator(model=evaluation_model)
 relevancy_evaluator = RelevancyEvaluator(llm=evaluation_llm)
+deep_relevancy_evaluator = DeepEvalContextualRelevancyEvaluator(model=evaluation_model)
 
 def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
     nest_asyncio.apply()
@@ -109,26 +109,29 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         logging.info(q)
 
         response = top_agent.query(question)
-
+        time.sleep(10)
         answer = "|A : " + str(response)
         print(answer)
         logging.info(answer)
 
         print("|Faithfulness Evaluation")
         logging.info("|Faithfulness Evaluation")
-        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        #faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        faithfulness_eval_result = deep_faithfulness_evaluator.evaluate_response(query=question, response=response)  
         agentic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
         display_helper.display_evaluation_result(faithfulness_eval_result)
 
         print("|Relevancy Evaluation")
         logging.info("|Relevancy Evaluation")
-        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        #relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        relevancy_eval_result = deep_relevancy_evaluator.evaluate_response(query=question, response=response)
         agentic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
+
         display_helper.display_evaluation_result(relevancy_eval_result)
 
         print("|End Evaluation")
         logging.info("|End Evaluation")
-
+        time.sleep(10)
     # Basic RAG
     if load_from_storage:
         basic_vector_index = load_index_from_storage(
@@ -157,35 +160,38 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
         logging.info(q)
 
         response = basic_query_engine.query(question)
-
+        time.sleep(10)
         answer = "||A : " + str(response)
         print(answer)
         logging.info(answer)
 
         print("||Faithfulness Evaluation")
         logging.info("||Faithfulness Evaluation")
-        faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        #faithfulness_eval_result = faithfulness_evaluator.evaluate_response(query=question, response=response)
+        faithfulness_eval_result = deep_faithfulness_evaluator.evaluate_response(query=question, response=response)
         basic_faithfulness_list.append({"question": question, "response": response, "eval_result": faithfulness_eval_result})
         display_helper.display_evaluation_result(faithfulness_eval_result)
 
         print("||Relevancy Evaluation")
         logging.info("||Relevancy Evaluation")
-        relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        #relevancy_eval_result = relevancy_evaluator.evaluate_response(query=question, response=response)
+        relevancy_eval_result = deep_relevancy_evaluator.evaluate_response(query=question, response=response)
         basic_relevancy_list.append({"question": question, "response": response, "eval_result": relevancy_eval_result})
         display_helper.display_evaluation_result(relevancy_eval_result)
         
         print("||End Evaluation")
         logging.info("||End Evaluation")
+        time.sleep(10)
 
     print("============================================================")
     logging.info("============================================================")
 
-    score = display_helper.calculate_results_score(agentic_faithfulness_list)
+    score = display_helper.calculate_results_deep_score(agentic_faithfulness_list)
     score_message = f'Agentic Faithfulness score: {score:.4f}'
     print(score_message)
     logging.info(score_message)
 
-    score = display_helper.calculate_results_score(agentic_relevancy_list)
+    score = display_helper.calculate_results_deep_score(agentic_relevancy_list)
     score_message = f'Agentic Relevance score: {score:.4f}'
     print(score_message)
     logging.info(score_message)
@@ -195,7 +201,7 @@ def run_pipeline(questions: list[str], load_from_storage: bool, token_counter):
     print(score_message)
     logging.info(score_message)
 
-    score = display_helper.calculate_results_score(basic_relevancy_list)
+    score = display_helper.calculate_results_deep_score(basic_relevancy_list)
     score_message = f'Basic Relevance score: {score:.4f}'
     print(score_message)
     logging.info(score_message)

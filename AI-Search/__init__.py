@@ -59,15 +59,18 @@ def main():
     questions_data_dir = "C:\\Users\\ihor.k.bocharov\\Documents\\GitHub\\AI-Search\\persistent\\docs.llamaindex.ai\\questions"
     #file_questions_name = "scenario-based.txt"
     #file_questions_name = "take_2_from_all_categories.txt"
-    file_questions_name = "take_1_from_all_categories.txt"
-    questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
-    #questions = [
+    #file_questions_name = "take_1_from_all_categories.txt"
+    #questions = file_helper.load_list_from_file(questions_data_dir, file_questions_name)
+
+    file_questions_name = "inline"
+    questions = [
+        "How would you migrate an existing indexing system to llamaindex.io?"
         #"How does llamaindex.io compare to Elasticsearch?",
         #"What are the main components of llamaindex.io?"
         #"Tell me about LlamaIndex connectors",
         #"From the documentation what is the best way to get started with LlamaIndex?",
         #"What is pinecone?"
-        #]
+        ]
 
     logging.info("Questions : " + file_questions_name)
     logging.info("Generation Model : " + model)
